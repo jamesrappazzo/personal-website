@@ -101,13 +101,15 @@ def scan_project_settings(project_path: Path = None) -> Dict[str, Any]:
     claude_dir = project_path / ".claude"
 
     if claude_dir.exists():
-        settings_file = claude_dir / "settings.local.json"
-        if settings_file.exists():
-            try:
-                with open(settings_file) as f:
-                    settings["project_settings"] = json.load(f)
-            except Exception as e:
-                settings["project_settings"] = f"Error: {e}"
+        # Check for settings.json (shared) and settings.local.json (local overrides)
+        for filename in ["settings.json", "settings.local.json"]:
+            settings_file = claude_dir / filename
+            if settings_file.exists():
+                try:
+                    with open(settings_file) as f:
+                        settings[filename] = json.load(f)
+                except Exception as e:
+                    settings[filename] = f"Error: {e}"
 
     return settings
 
