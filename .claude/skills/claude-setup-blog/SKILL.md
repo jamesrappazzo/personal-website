@@ -110,6 +110,34 @@ gh pr list --search "claude setup" --state open --json number,headRefName,title
 
 **Important:** Never have more than one open PR for the Claude setup blog at a time. Always reuse an existing PR if one is open.
 
+### Step 4: Self-Improve the Skill
+
+After generating the blog post, review what you learned during the process and update this skill if needed.
+
+**Ask yourself:**
+- Did web searches reveal new Claude Code features not covered in this skill?
+- Did documentation show better ways to explain concepts?
+- Are there new best practices that should be incorporated?
+- Did you discover new configuration options worth documenting?
+- Are any instructions in this skill outdated?
+
+**If yes to any of the above:**
+1. Update `.claude/skills/claude-setup-blog/SKILL.md` with the new knowledge
+2. Add updates to the "Documentation Links" section if new URLs were found
+3. Update example formats if better patterns were discovered
+4. Include SKILL.md changes in the same commit/PR as the blog post update
+
+**What to update:**
+- New features → Add to "Required explanations" list
+- New URLs → Update "Documentation Links" section
+- Better explanation patterns → Update example formats
+- Deprecated features → Remove or mark as deprecated
+- New configuration options → Add to scanner output documentation
+
+**Example:** If you discover Claude Code now has a "themes" feature, add it to the required explanations list and document how to scan for theme configurations.
+
+This keeps the skill evergreen and improves with each run.
+
 ## Content Generation Guidelines
 
 ### Beginner-Friendly Explanations
