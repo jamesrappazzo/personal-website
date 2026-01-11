@@ -49,18 +49,18 @@ Key things I tell Claude:
 
 I have the following plugins enabled:
 
-| Plugin | What I Use It For | Source |
-|--------|-------------------|--------|
-| **document-skills** | Creating and editing DOCX, PDF, XLSX, PPTX files | [anthropic-agent-skills](https://github.com/anthropics/anthropic-agent-skills) |
-| **frontend-design** | Building production-grade UI with good design patterns | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **github** | PR management, issues, and GitHub workflows | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **feature-dev** | Guided feature development with codebase exploration | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **code-review** | AI-powered code review on pull requests | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **typescript-lsp** | Better TypeScript understanding via language server | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **security-guidance** | Security best practices and vulnerability detection | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **commit-commands** | Git workflow automation (`/commit`, `/commit-push-pr`) | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **agent-sdk-dev** | Building Claude Agent SDK applications | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
-| **stripe** | Stripe integration utilities | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| Plugin | What I Use It For |
+|--------|-------------------|
+| [**document-skills**](https://github.com/anthropics/skills) | Creating and editing DOCX, PDF, XLSX, PPTX files |
+| [**frontend-design**](https://github.com/anthropics/claude-plugins-official) | Building production-grade UI with good design patterns |
+| [**github**](https://github.com/anthropics/claude-plugins-official) | PR management, issues, and GitHub workflows |
+| [**feature-dev**](https://github.com/anthropics/claude-plugins-official) | Guided feature development with codebase exploration |
+| [**code-review**](https://github.com/anthropics/claude-plugins-official) | AI-powered code review on pull requests |
+| [**typescript-lsp**](https://github.com/anthropics/claude-plugins-official) | Better TypeScript understanding via language server |
+| [**security-guidance**](https://github.com/anthropics/claude-plugins-official) | Security best practices and vulnerability detection |
+| [**commit-commands**](https://github.com/anthropics/claude-plugins-official) | Git workflow automation (`/commit`, `/commit-push-pr`) |
+| [**agent-sdk-dev**](https://github.com/anthropics/claude-plugins-official) | Building Claude Agent SDK applications |
+| [**stripe**](https://github.com/anthropics/claude-plugins-official) | Stripe integration utilities |
 
 ---
 
@@ -70,9 +70,9 @@ I have the following plugins enabled:
 
 I have one custom skill:
 
-| Skill | What It Does | Source |
-|-------|--------------|--------|
-| **claude-setup-blog** | Scans my Claude config and generates this blog post | [View skill →](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) |
+| Skill | What It Does |
+|-------|--------------|
+| [**claude-setup-blog**](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | Scans my Claude config and generates this blog post |
 
 The skill is self-improving: each time it runs, it updates itself with new knowledge from documentation.
 
@@ -309,7 +309,7 @@ Commits, pushes, and opens a PR in one command.
 - [CLAUDE.md Guide](https://docs.anthropic.com/en/docs/claude-code/memory)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Official Plugins Repo](https://github.com/anthropics/claude-plugins-official)
-- [Anthropic Agent Skills](https://github.com/anthropics/anthropic-agent-skills)
+- [Document Skills (xlsx, docx, pdf, pptx)](https://github.com/anthropics/skills)
 
 ---
 

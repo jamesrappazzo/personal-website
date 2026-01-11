@@ -225,10 +225,10 @@ Every blog post must include these sections:
    - Bullet point summaries of your CLAUDE.md content
    ```
 
-3. **Plugins** (table format with sources):
-   | Plugin | What I Use It For | Source |
-   |--------|-------------------|--------|
-   | **document-skills** | Creating DOCX, PDF files | [anthropic-agent-skills](github-link) |
+3. **Plugins** (table format with hyperlinked names):
+   | Plugin | What I Use It For |
+   |--------|-------------------|
+   | [**document-skills**](https://github.com/anthropics/skills) | Creating DOCX, PDF files |
 
 4. **Skills** (table format with sources)
 
@@ -261,11 +261,11 @@ Every blog post must include these sections:
 }
 ```
 
-**Enabled Plugins**: Use table format with Source column linking to GitHub repos:
-| Plugin | What I Use It For | Source |
-|--------|-------------------|--------|
-| **document-skills** | Document creation and editing (DOCX, PDF, XLSX, etc.) | [anthropic-agent-skills](https://github.com/anthropics/anthropic-agent-skills) |
-| **frontend-design** | Build beautiful web interfaces | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+**Enabled Plugins**: Use table format with hyperlinked plugin names (no separate Source column):
+| Plugin | What I Use It For |
+|--------|-------------------|
+| [**document-skills**](https://github.com/anthropics/skills) | Document creation and editing (DOCX, PDF, XLSX, etc.) |
+| [**frontend-design**](https://github.com/anthropics/claude-plugins-official) | Build beautiful web interfaces |
 
 **MCP Servers**: Document each configured server:
 ```json
@@ -414,9 +414,9 @@ The changelog follows a **release notes style** similar to software projects. Ea
 
 **CRITICAL:** Every external tool, plugin, or resource mentioned MUST link to its official source.
 
-1. **Plugins**: Always include a Source column in plugin tables linking to the GitHub repo
+1. **Plugins**: Hyperlink plugin names directly to their GitHub repos (no separate Source column)
    - Official plugins → `https://github.com/anthropics/claude-plugins-official`
-   - Agent skills → `https://github.com/anthropics/anthropic-agent-skills`
+   - Document skills → `https://github.com/anthropics/skills`
 
 2. **Config Files in Repo**: Link to the actual files in your GitHub repo
    - Use format: `[.claude/CLAUDE.md](https://github.com/username/repo/blob/main/.claude/CLAUDE.md)`
@@ -450,7 +450,7 @@ When generating the blog post, include these links (verified January 2026):
 
 **Plugin Sources (GitHub repos):**
 - Official plugins: `https://github.com/anthropics/claude-plugins-official`
-- Agent skills: `https://github.com/anthropics/anthropic-agent-skills`
+- Document skills (xlsx, docx, pdf, pptx): `https://github.com/anthropics/skills`
 - Claude Code repo: `https://github.com/anthropics/claude-code`
 
 **Plugin Installation:**
