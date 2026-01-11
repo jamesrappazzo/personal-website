@@ -17,61 +17,76 @@ This is a living document that captures my current Claude Code setup. It's autom
 
 ## What is Claude Code?
 
-Claude Code is Anthropic's official CLI tool that brings Claude AI into your terminal and development workflow. It provides an interactive agent that can read, write, and execute code with full context of your project.
+**Claude Code** is Anthropic's agentic coding tool that lives in your terminal. It understands your codebase, executes routine tasks, explains complex code, and handles git workflows—all through natural language. [Learn more →](https://docs.anthropic.com/en/docs/claude-code/overview)
 
-## My Configuration
+I use it as my primary development assistant for everything from writing features to reviewing code to managing git workflows.
 
-### Global Settings
+---
 
-**Model:** `sonnet` (Claude Sonnet 4.5)
+## Plugins
 
-I use Sonnet as my default model for the best balance of speed, capability, and cost-effectiveness for day-to-day development tasks.
+**What are plugins?** Plugins extend Claude Code with specialized capabilities—from document editing to code review. Think of them as apps for Claude that add new skills and slash commands. [Learn more →](https://code.claude.com/docs/en/plugins)
 
-**Global Permissions:**
+I have the following plugins enabled:
+
+| Plugin | What I Use It For |
+|--------|-------------------|
+| **document-skills** | Creating and editing DOCX, PDF, XLSX, PPTX files directly |
+| **frontend-design** | Building production-grade UI with good design patterns |
+| **github** | PR management, issues, and GitHub workflows |
+| **feature-dev** | Guided feature development with codebase exploration |
+| **code-review** | AI-powered code review on pull requests |
+| **typescript-lsp** | Better TypeScript understanding via language server |
+| **security-guidance** | Security best practices and vulnerability detection |
+| **commit-commands** | Git workflow automation (`/commit`, `/commit-push-pr`) |
+| **agent-sdk-dev** | Building Claude Agent SDK applications |
+| **stripe** | Stripe integration utilities |
+
+---
+
+## Skills
+
+**What are skills?** Skills are reusable prompt packages that Claude loads automatically when relevant. Unlike slash commands (which you invoke explicitly), skills are triggered by Claude based on your request. They can bundle instructions, scripts, and templates. [Learn more →](https://code.claude.com/docs/en/skills)
+
+I have one custom skill:
+
+- **claude-setup-blog** — Automatically scans my Claude configuration and generates this blog post. It's self-improving: each time it runs, it updates itself with new knowledge.
+
+The skill lives in this repo at `.claude/skills/claude-setup-blog/` so anyone can use it.
+
+---
+
+## Permissions
+
+**What are permissions?** Claude Code uses an allow/deny/ask system to control what actions it can take. This keeps you in control of what Claude can do on your machine. [Learn more →](https://code.claude.com/docs/en/iam)
+
+### Global Permissions
+
+Save this to `~/.claude/settings.local.json`:
+
 ```json
 {
   "permissions": {
     "allow": [
       "WebFetch(domain:code.claude.com)"
     ],
-    "deny": [],
+    "deny": [
+      "Bash(gh auth:*)",
+      "Bash(gh ssh-key:*)",
+      "Bash(ssh-keygen:*)"
+    ],
     "ask": []
   }
 }
 ```
 
-### Enabled Plugins
+**Why these settings?**
+- **Allow** web fetches to Claude docs for reference
+- **Deny** authentication commands—I don't want Claude changing my GitHub credentials
 
-I have the following official Claude plugins enabled:
+### Project Permissions (this website)
 
-- **document-skills** - Comprehensive document creation and editing (DOCX, PDF, XLSX, PPTX, etc.)
-- **frontend-design** - Build beautiful, production-grade frontend interfaces
-- **github** - GitHub integration for PR management, issues, and workflows
-- **feature-dev** - Guided feature development with codebase understanding
-- **code-review** - AI-powered code review for pull requests
-- **typescript-lsp** - TypeScript language server integration for better code understanding
-- **security-guidance** - Security best practices and vulnerability detection
-- **commit-commands** - Git workflow automation (commit, push, PR creation)
-- **agent-sdk-dev** - Tools for building Claude Agent SDK applications
-- **stripe** - Stripe integration and payment processing utilities
-
-### MCP Servers
-
-**Status:** No MCP servers currently configured globally.
-
-I'm exploring MCP (Model Context Protocol) servers to extend Claude's capabilities. MCP allows Claude to integrate with external services and APIs. Learn more at [modelcontextprotocol.io](https://modelcontextprotocol.io/).
-
-### Installed Skills
-
-I have the following custom skills installed:
-
-- **claude-setup-blog** - Automatically scans Claude Code configuration and generates/updates this blog post
-
-This skill demonstrates the power of custom skills for automating documentation and workflows.
-
-## Project-Specific Settings
-
-For my personal website project, I have additional permissions configured:
+Save this to `.claude/settings.local.json` in your project:
 
 ```json
 {
@@ -81,31 +96,36 @@ For my personal website project, I have additional permissions configured:
       "Bash(tree:*)",
       "Bash(find:*)",
       "Bash(du:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(awk:*)",
       "Bash(gh repo view:*)",
-      "Bash(claude mcp list:*)",
-      "Skill(document-skills:skill-creator)",
-      "Bash(python:*)",
-      "Bash(python3:*)",
-      "Bash(claude skill install:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh api:*)",
+      "Bash(gh run:*)",
       "Bash(git checkout:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git fetch:*)",
+      "Bash(git rebase:*)",
       "Bash(git restore:*)",
       "Bash(git log:*)",
-      "Bash(git check-ignore:*)",
-      "Bash(gh pr create:*)",
-      "Bash(gh api:*)",
+      "Bash(git filter-branch:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(curl:*)",
       "Bash(hugo:*)",
       "Bash(hugo server:*)",
       "Bash(hugo version:*)",
       "Bash(pkill hugo:*)",
-      "Bash(curl:*)",
-      "Bash(ls:*)",
-      "Bash(awk:*)",
-      "Bash(grep:*)",
+      "Bash(pgrep:*)",
       "Skill(frontend-design)",
-      "WebFetch(domain:github.com)"
+      "Skill(document-skills:skill-creator)",
+      "WebFetch(domain:github.com)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
@@ -113,54 +133,56 @@ For my personal website project, I have additional permissions configured:
 }
 ```
 
-These permissions allow Claude to:
-- **File exploration** - Read files, list directories, explore project structure
-- **Git workflow** - Full git operations including checkout, add, commit, push, restore, and log
-- **GitHub integration** - Create PRs, interact with GitHub API, view repo information
-- **Hugo development** - Run Hugo dev server, build site, manage Hugo processes
-- **Custom skills** - Create and install skills, use frontend-design for UI work
-- **Automation** - Run Python scripts, curl requests, and shell utilities
+**What this enables:**
+- Full git workflow (commit, push, pull, rebase)
+- GitHub CLI for PRs and API access
+- Hugo development server
+- Python scripts for automation
+- Web searches for documentation
 
-## Hooks & Automations
+---
 
-**Claude Hooks:** None configured yet
+## MCP Servers
 
-**Git Hooks:** None configured yet
+I don't currently use MCP (Model Context Protocol) servers. [Learn about MCP →](https://modelcontextprotocol.io/)
 
-I plan to add hooks for automated workflows like:
-- Pre-commit code formatting and linting
-- Automated changelog generation
-- Build validation before commits
+---
 
-## How to Use This Setup
+## Hooks
 
-### Installation
+I don't currently use Claude hooks or git hooks with Claude Code. [Learn about hooks →](https://docs.anthropic.com/en/docs/claude-code/hooks)
 
-1. Install Claude Code:
+---
+
+## How to Replicate My Setup
+
+### Step 1: Install Claude Code
+
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
-2. Authenticate with your Anthropic API key:
-```bash
-claude auth
-```
-
-3. Verify installation:
+Verify:
 ```bash
 claude --version
 ```
 
-### Replicating My Configuration
+### Step 2: Authenticate
 
-**Step 1: Configure Global Settings**
-
-Create `~/.claude/settings.json`:
 ```bash
-mkdir -p ~/.claude
-cat > ~/.claude/settings.json << 'EOF'
+claude auth
+```
+
+### Step 3: Add Plugin Marketplace
+
+```bash
+/plugin marketplace add anthropics/claude-plugins-official
+```
+
+Then enable plugins via `/plugin` menu, or add to `~/.claude/settings.json`:
+
+```json
 {
-  "model": "sonnet",
   "enabledPlugins": {
     "document-skills@anthropic-agent-skills": true,
     "frontend-design@claude-plugins-official": true,
@@ -174,12 +196,12 @@ cat > ~/.claude/settings.json << 'EOF'
     "stripe@claude-plugins-official": true
   }
 }
-EOF
 ```
 
-**Step 2: Configure Permissions**
+### Step 4: Configure Global Permissions
 
 Create `~/.claude/settings.local.json`:
+
 ```bash
 cat > ~/.claude/settings.local.json << 'EOF'
 {
@@ -187,121 +209,86 @@ cat > ~/.claude/settings.local.json << 'EOF'
     "allow": [
       "WebFetch(domain:code.claude.com)"
     ],
-    "deny": [],
-    "ask": []
-  }
-}
-EOF
-```
-
-**Step 3: Project-Specific Setup**
-
-In your project directory, create `.claude/settings.local.json`:
-```bash
-mkdir -p .claude
-cat > .claude/settings.local.json << 'EOF'
-{
-  "permissions": {
-    "allow": [
-      "Bash(cat:*)",
-      "Bash(tree:*)",
-      "Bash(find:*)",
-      "Bash(du:*)",
-      "Bash(gh repo view:*)",
-      "Bash(claude mcp list:*)",
-      "Bash(python:*)",
-      "Bash(python3:*)",
-      "Bash(git checkout:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git restore:*)",
-      "Bash(git log:*)",
-      "Bash(gh pr create:*)",
-      "Bash(gh api:*)",
-      "Bash(hugo:*)",
-      "Bash(hugo server:*)",
-      "WebFetch(domain:github.com)"
+    "deny": [
+      "Bash(gh auth:*)",
+      "Bash(gh ssh-key:*)",
+      "Bash(ssh-keygen:*)"
     ],
-    "deny": [],
     "ask": []
   }
 }
 EOF
 ```
 
-**Step 4: Install Custom Skills**
-
-If you're using my website repo, the `claude-setup-blog` skill is already included in `.claude/skills/`. To use it:
-
+Verify:
 ```bash
-# The skill is already in the repo at .claude/skills/claude-setup-blog/
-# You can invoke it by asking Claude to update your setup blog post
+cat ~/.claude/settings.local.json
 ```
 
-To install it globally from the packaged version:
+### Step 5: Get the claude-setup-blog Skill
+
+Clone this repo to get my custom skill:
+
 ```bash
-cp .claude/skills/claude-setup-blog.skill ~/.claude/skills/
+git clone https://github.com/jamesrappazzo/personal-website.git
+cd personal-website
+# The skill is at .claude/skills/claude-setup-blog/
 ```
 
-## Workflows & Tips
+---
 
-### Git Workflow
-- Use `/commit` to automatically stage changes and create semantic commits with proper formatting
-- Run `/commit-push-pr` to commit, push, and open a PR in one command
-- Claude co-authors all commits: `Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>`
+## Workflows I Use Daily
+
+### Git Commits
+```
+/commit
+```
+Stages changes and creates a semantic commit with proper formatting. Claude co-authors: `Co-Authored-By: Claude <noreply@anthropic.com>`
 
 ### Code Review
-- Run `/code-review <PR-number>` to get AI-powered code reviews
-- Claude analyzes for bugs, security issues, and code quality
-- Uses confidence-based filtering to report only high-priority issues
-
-### Document Creation
-- Ask Claude to create/edit DOCX, PDF, XLSX, PPTX files directly
-- Supports tracked changes, comments, and formatting preservation
-- Great for technical documentation and reports
+```
+/code-review 123
+```
+Reviews PR #123 for bugs, security issues, and code quality. Uses confidence scoring to surface only high-priority issues.
 
 ### Feature Development
-- Use `/feature-dev` for guided feature implementation
-- Claude explores codebase patterns and provides architecture blueprints
-- Helps maintain consistency with existing code conventions
+```
+/feature-dev
+```
+Guided feature implementation—Claude explores the codebase, understands patterns, and provides architecture blueprints.
 
-### Building Skills
-- Use `/skill-creator` to build custom skills for repeated workflows
-- Skills bundle scripts, references, and assets for efficiency
-- Great for domain-specific knowledge and automation
+### Commit + PR in One Step
+```
+/commit-push-pr
+```
+Commits, pushes, and opens a PR in one command.
+
+---
 
 ## Why This Setup?
 
-### Model Choice: Sonnet
-I use Sonnet (Claude Sonnet 4.5) as my default model because:
-- Best balance of speed and capability for development
-- Handles complex codebases efficiently
-- More cost-effective than Opus for routine tasks
-- Switch to Opus with `/model opus` when I need maximum reasoning power
+**Plugins:** I enable plugins for workflows I use regularly. Document creation, code review, and git automation save me significant time.
 
-### Plugin Selection
-My plugin choices reflect my development workflow:
-- **Document tools** - Essential for creating technical documentation and specs
-- **Git automation** - Streamlines the commit/PR process significantly
-- **Code review** - Catches issues I might miss in my own code
-- **Feature development** - Helps maintain architecture consistency
-- **Security guidance** - Proactive security is critical
+**Permissions:** I use an allow-list approach—explicitly permit operations I need, deny sensitive auth commands. This keeps Claude productive while maintaining security boundaries.
 
-### Permission Philosophy
-I use an "allow-list" approach:
-- Explicitly allow specific operations I use regularly
-- Keeps security tight while enabling productivity
-- Project-specific permissions for different security contexts
+**Skills:** I build custom skills for repeated workflows. The claude-setup-blog skill keeps this documentation in sync automatically.
 
-### Custom Skills Philosophy
-I build custom skills for:
-- **Repeated workflows** - Automate processes I do frequently
-- **Documentation** - Keep documentation in sync with reality
-- **Domain knowledge** - Encode specialized knowledge for reuse
-- **Open source sharing** - Enable others to use my workflows
+---
 
 ## Changelog
+
+### 2026-01-11 ([PR #5](https://github.com/jamesrappazzo/personal-website/pull/5))
+
+**Added**
+- Beginner-friendly explanations for plugins, skills, and permissions
+- Documentation links to official sources
+- Table format for plugin list
+- Updated project permissions (git rebase, filter-branch, WebSearch)
+- Global deny rules for authentication commands
+
+**Changed**
+- Restructured for better readability and copy-friendliness
+- Simplified "How to Replicate" section with verification steps
 
 ### 2026-01-11 ([PR #3](https://github.com/jamesrappazzo/personal-website/pull/3))
 
@@ -322,14 +309,17 @@ I build custom skills for:
 - Replication instructions and workflows
 - claude-setup-blog skill for auto-generating this post
 
+---
+
 ## Resources
 
-- [Claude Code Documentation](https://code.claude.com/docs)
-- [Claude API Documentation](https://docs.anthropic.com/)
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/overview)
+- [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
+- [Claude Code Skills](https://code.claude.com/docs/en/skills)
+- [Claude Code Permissions](https://code.claude.com/docs/en/iam)
 - [MCP (Model Context Protocol)](https://modelcontextprotocol.io/)
-- [My Website Repository](https://github.com/jamesrappazzo/personal-website)
-- [Claude Setup Blog Skill Source](.claude/skills/claude-setup-blog/)
+- [This Website's Repository](https://github.com/jamesrappazzo/personal-website)
 
 ---
 
-*This post is automatically generated and updated using my custom `claude-setup-blog` skill. The skill scans my configuration and regenerates this content to keep it current. View the skill source in this repo at `.claude/skills/claude-setup-blog/`.*
+*This post is automatically generated using my [claude-setup-blog skill](.claude/skills/claude-setup-blog/). The skill scans my configuration, researches current documentation, and regenerates this content.*
