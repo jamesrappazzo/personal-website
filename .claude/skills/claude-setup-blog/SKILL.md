@@ -140,28 +140,30 @@ This keeps the skill evergreen and improves with each run.
 
 ## Content Generation Guidelines
 
-### Beginner-Friendly Explanations
+### Beginner-Friendly Explanations (For Features You Use)
 
-Every major concept MUST include a brief explanation for newcomers. Assume the reader may not know what these things are:
+Only explain features that are **actually configured in your setup**. This is a personal setup post, not a Claude Code tutorial.
 
-**Required explanations (with official doc links):**
+**Rule:** If you're using it → explain it briefly with a doc link. If you're not using it → just note "Not currently configured" with a link for readers who want to learn more.
 
-- **What is Claude Code?** - Brief intro (1-2 sentences) + link to official docs
-- **What are Plugins?** - Explain that plugins extend Claude's capabilities with specialized tools. Link to plugin docs.
-- **What are MCP Servers?** - Explain Model Context Protocol - how Claude connects to external services. Link to modelcontextprotocol.io
-- **What are Skills?** - Explain custom reusable prompts/workflows. Link to skills docs.
-- **What are Hooks?** - Explain automated actions triggered by events. Link to hooks docs.
-- **What are Permissions?** - Explain the allow/deny/ask system for tool access. Link to permissions docs.
-
-**Format for explanations:**
+**For features you ARE using:**
 ```markdown
 ### Plugins
 
-**What are plugins?** Plugins extend Claude Code with specialized capabilities - from document editing to code review. They're like apps for Claude. [Learn more →](https://docs.anthropic.com/...)
+**What are plugins?** Plugins extend Claude Code with specialized capabilities. [Learn more →](https://docs.anthropic.com/...)
 
 I have the following plugins enabled:
-...
+- **document-skills** - I use this for...
 ```
+
+**For features you're NOT using:**
+```markdown
+### MCP Servers
+
+I don't currently use MCP servers. [Learn about MCP →](https://modelcontextprotocol.io/)
+```
+
+**Keep it focused:** The blog post documents YOUR setup, not all possible Claude Code features. Only go deep on things you actually use and can speak to from experience.
 
 ### Copy-Friendly Setup
 
