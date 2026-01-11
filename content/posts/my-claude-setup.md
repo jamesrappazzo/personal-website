@@ -17,7 +17,7 @@ My current Claude Code configuration—automatically kept in sync by a custom sk
 
 **Browse my config files:**
 - [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) — My global instructions for Claude
-- [Project settings](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.local.json) — Permissions for this repo
+- [Project settings](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) — Permissions for this repo
 - [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
 
 ---
@@ -84,7 +84,7 @@ The skill is self-improving: each time it runs, it updates itself with new knowl
 
 ### Global Permissions
 
-Save this to `~/.claude/settings.local.json`:
+Save this to `~/.claude/settings.json`:
 
 ```json
 {
@@ -108,7 +108,7 @@ Save this to `~/.claude/settings.local.json`:
 
 ### Project Permissions
 
-**My project settings:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.local.json)
+**My project settings:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json)
 
 **What this enables:**
 - Full git workflow (commit, push, pull, rebase)
@@ -185,10 +185,10 @@ Create `~/.claude/CLAUDE.md` with your preferences. [See mine for inspiration �
 
 ### Step 5: Configure Global Permissions
 
-Create `~/.claude/settings.local.json`:
+Create `~/.claude/settings.json`:
 
 ```bash
-cat > ~/.claude/settings.local.json << 'EOF'
+cat > ~/.claude/settings.json << 'EOF'
 {
   "permissions": {
     "allow": [
@@ -292,7 +292,7 @@ Commits, pushes, and opens a PR in one command.
 | File | Description |
 |------|-------------|
 | [.claude/CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) | My global Claude instructions |
-| [.claude/settings.local.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.local.json) | Project permissions |
+| [.claude/settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) | Project permissions |
 | [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
 
 ---
