@@ -362,20 +362,26 @@ The changelog follows a **release notes style** similar to software projects. Ea
 
 ## Documentation Links
 
-When generating the blog post, include these links (verify via WebSearch that URLs are current):
+When generating the blog post, include these links (verified January 2026):
 
 **Core Documentation:**
-- Claude Code main docs: `https://docs.anthropic.com/en/docs/claude-code`
+- Claude Code overview: `https://docs.anthropic.com/en/docs/claude-code/overview`
 - Claude API docs: `https://docs.anthropic.com/`
 
 **Feature-Specific:**
-- Plugins: Search for current URL
+- Plugins: `https://code.claude.com/docs/en/plugins`
+- Skills: `https://code.claude.com/docs/en/skills`
+- Permissions/IAM: `https://code.claude.com/docs/en/iam`
 - MCP: `https://modelcontextprotocol.io/`
-- Skills: Search for current URL
-- Hooks: Search for current URL
-- Permissions: Search for current URL
+- Hooks: `https://docs.anthropic.com/en/docs/claude-code/hooks`
 
-**Important:** URLs change. Always verify links are valid before including them. Use WebSearch to find the current official documentation for each feature.
+**Plugin Installation:**
+To install plugins, users should:
+1. Add marketplace: `/plugin marketplace add anthropics/claude-plugins-official`
+2. Browse and enable via `/plugin` menu
+3. Or add directly to `~/.claude/settings.json` under `enabledPlugins`
+
+**Important:** URLs change. Always verify links are valid via WebSearch before including them.
 
 ## Resources
 
