@@ -15,11 +15,31 @@ This is a living document that captures my current Claude Code setup. It's autom
 
 **Last Updated:** 2026-01-11
 
+**Browse my config files:**
+- [CLAUDE.md](.claude/CLAUDE.md) — My global instructions for Claude
+- [Project settings](.claude/settings.local.json) — Permissions for this repo
+- [claude-setup-blog skill](.claude/skills/claude-setup-blog/) — The skill that generates this post
+
+---
+
 ## What is Claude Code?
 
 **Claude Code** is Anthropic's agentic coding tool that lives in your terminal. It understands your codebase, executes routine tasks, explains complex code, and handles git workflows—all through natural language. [Learn more →](https://docs.anthropic.com/en/docs/claude-code/overview)
 
 I use it as my primary development assistant for everything from writing features to reviewing code to managing git workflows.
+
+---
+
+## CLAUDE.md
+
+**What is CLAUDE.md?** A special file that Claude automatically pulls into context when starting a conversation. It's where you tell Claude about yourself, your preferences, and project-specific instructions. [Learn more →](https://docs.anthropic.com/en/docs/claude-code/memory)
+
+**My CLAUDE.md:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md)
+
+Key things I tell Claude:
+- I'm a TypeScript developer using React, Next.js, Tailwind, and Prisma
+- My git workflow: feature branch → `/feature-dev` → rebase → squash → PR → `/code-review`
+- Match existing code style, explain tradeoffs, prefer practical over over-engineered
 
 ---
 
@@ -29,18 +49,18 @@ I use it as my primary development assistant for everything from writing feature
 
 I have the following plugins enabled:
 
-| Plugin | What I Use It For |
-|--------|-------------------|
-| **document-skills** | Creating and editing DOCX, PDF, XLSX, PPTX files directly |
-| **frontend-design** | Building production-grade UI with good design patterns |
-| **github** | PR management, issues, and GitHub workflows |
-| **feature-dev** | Guided feature development with codebase exploration |
-| **code-review** | AI-powered code review on pull requests |
-| **typescript-lsp** | Better TypeScript understanding via language server |
-| **security-guidance** | Security best practices and vulnerability detection |
-| **commit-commands** | Git workflow automation (`/commit`, `/commit-push-pr`) |
-| **agent-sdk-dev** | Building Claude Agent SDK applications |
-| **stripe** | Stripe integration utilities |
+| Plugin | What I Use It For | Source |
+|--------|-------------------|--------|
+| **document-skills** | Creating and editing DOCX, PDF, XLSX, PPTX files | [anthropic-agent-skills](https://github.com/anthropics/anthropic-agent-skills) |
+| **frontend-design** | Building production-grade UI with good design patterns | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **github** | PR management, issues, and GitHub workflows | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **feature-dev** | Guided feature development with codebase exploration | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **code-review** | AI-powered code review on pull requests | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **typescript-lsp** | Better TypeScript understanding via language server | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **security-guidance** | Security best practices and vulnerability detection | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **commit-commands** | Git workflow automation (`/commit`, `/commit-push-pr`) | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **agent-sdk-dev** | Building Claude Agent SDK applications | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
+| **stripe** | Stripe integration utilities | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
 
 ---
 
@@ -50,9 +70,11 @@ I have the following plugins enabled:
 
 I have one custom skill:
 
-- **claude-setup-blog** — Automatically scans my Claude configuration and generates this blog post. It's self-improving: each time it runs, it updates itself with new knowledge.
+| Skill | What It Does | Source |
+|-------|--------------|--------|
+| **claude-setup-blog** | Scans my Claude config and generates this blog post | [View skill →](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) |
 
-The skill lives in this repo at `.claude/skills/claude-setup-blog/` so anyone can use it.
+The skill is self-improving: each time it runs, it updates itself with new knowledge from documentation.
 
 ---
 
@@ -84,54 +106,9 @@ Save this to `~/.claude/settings.local.json`:
 - **Allow** web fetches to Claude docs for reference
 - **Deny** authentication commands—I don't want Claude changing my GitHub credentials
 
-### Project Permissions (this website)
+### Project Permissions
 
-Save this to `.claude/settings.local.json` in your project:
-
-```json
-{
-  "permissions": {
-    "allow": [
-      "Bash(cat:*)",
-      "Bash(tree:*)",
-      "Bash(find:*)",
-      "Bash(du:*)",
-      "Bash(ls:*)",
-      "Bash(grep:*)",
-      "Bash(awk:*)",
-      "Bash(gh repo view:*)",
-      "Bash(gh pr create:*)",
-      "Bash(gh api:*)",
-      "Bash(gh run:*)",
-      "Bash(git checkout:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git pull:*)",
-      "Bash(git fetch:*)",
-      "Bash(git rebase:*)",
-      "Bash(git restore:*)",
-      "Bash(git log:*)",
-      "Bash(git filter-branch:*)",
-      "Bash(git remote set-url:*)",
-      "Bash(python:*)",
-      "Bash(python3:*)",
-      "Bash(curl:*)",
-      "Bash(hugo:*)",
-      "Bash(hugo server:*)",
-      "Bash(hugo version:*)",
-      "Bash(pkill hugo:*)",
-      "Bash(pgrep:*)",
-      "Skill(frontend-design)",
-      "Skill(document-skills:skill-creator)",
-      "WebFetch(domain:github.com)",
-      "WebSearch"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
-```
+**My project settings:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.local.json)
 
 **What this enables:**
 - Full git workflow (commit, push, pull, rebase)
@@ -198,7 +175,11 @@ Then enable plugins via `/plugin` menu, or add to `~/.claude/settings.json`:
 }
 ```
 
-### Step 4: Configure Global Permissions
+### Step 4: Create Your CLAUDE.md
+
+Create `~/.claude/CLAUDE.md` with your preferences. [See mine for inspiration →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md)
+
+### Step 5: Configure Global Permissions
 
 Create `~/.claude/settings.local.json`:
 
@@ -220,12 +201,7 @@ cat > ~/.claude/settings.local.json << 'EOF'
 EOF
 ```
 
-Verify:
-```bash
-cat ~/.claude/settings.local.json
-```
-
-### Step 5: Get the claude-setup-blog Skill
+### Step 6: Get the claude-setup-blog Skill
 
 Clone this repo to get my custom skill:
 
@@ -267,6 +243,8 @@ Commits, pushes, and opens a PR in one command.
 
 ## Why This Setup?
 
+**CLAUDE.md:** Tells Claude who I am and how I work. It's the most impactful file for personalizing Claude's behavior.
+
 **Plugins:** I enable plugins for workflows I use regularly. Document creation, code review, and git automation save me significant time.
 
 **Permissions:** I use an allow-list approach—explicitly permit operations I need, deny sensitive auth commands. This keeps Claude productive while maintaining security boundaries.
@@ -277,37 +255,41 @@ Commits, pushes, and opens a PR in one command.
 
 ## Changelog
 
-### 2026-01-11 ([PR #5](https://github.com/jamesrappazzo/personal-website/pull/5))
+### 2026-01-11
+
+**Added**
+- CLAUDE.md section with link to my config file
+- Source links for all plugins (GitHub repos)
+- Links to all config files in this repo
+- "Browse my config files" quick links at top
+
+**Changed**
+- Plugins and skills now use table format with source links
+- Restructured for better navigation
+
+### 2026-01-11 (earlier)
 
 **Added**
 - Beginner-friendly explanations for plugins, skills, and permissions
 - Documentation links to official sources
-- Table format for plugin list
-- Updated project permissions (git rebase, filter-branch, WebSearch)
 - Global deny rules for authentication commands
 
-**Changed**
-- Restructured for better readability and copy-friendliness
-- Simplified "How to Replicate" section with verification steps
-
-### 2026-01-11 ([PR #3](https://github.com/jamesrappazzo/personal-website/pull/3))
-
-**Added**
-- Git workflow permissions (checkout, add, commit, push, restore, log)
-- GitHub API permissions (gh pr create, gh api)
-- Hugo development commands (server, build, version, pkill)
-- frontend-design skill permission
-- WebFetch for github.com domain
-
-### 2026-01-10 ([PR #1](https://github.com/jamesrappazzo/personal-website/pull/1))
+### 2026-01-10
 
 **Added**
 - Initial setup documentation
 - Global settings and permissions configuration
-- Enabled plugins list with descriptions
-- Project-specific permissions for personal-website
-- Replication instructions and workflows
 - claude-setup-blog skill for auto-generating this post
+
+---
+
+## Files in This Repo
+
+| File | Description |
+|------|-------------|
+| [.claude/CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) | My global Claude instructions |
+| [.claude/settings.local.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.local.json) | Project permissions |
+| [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
 
 ---
 
@@ -317,9 +299,10 @@ Commits, pushes, and opens a PR in one command.
 - [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
 - [Claude Code Skills](https://code.claude.com/docs/en/skills)
 - [Claude Code Permissions](https://code.claude.com/docs/en/iam)
+- [CLAUDE.md Guide](https://docs.anthropic.com/en/docs/claude-code/memory)
 - [MCP (Model Context Protocol)](https://modelcontextprotocol.io/)
-- [This Website's Repository](https://github.com/jamesrappazzo/personal-website)
+- [Official Plugins Repo](https://github.com/anthropics/claude-plugins-official)
 
 ---
 
-*This post is automatically generated using my [claude-setup-blog skill](.claude/skills/claude-setup-blog/). The skill scans my configuration, researches current documentation, and regenerates this content.*
+*This post is automatically generated using my [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog). The skill scans my configuration, researches current documentation, and regenerates this content.*
