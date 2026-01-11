@@ -434,20 +434,24 @@ The changelog follows a **release notes style** similar to software projects. Ea
 When generating the blog post, include these links (verified January 2026):
 
 **Core Documentation:**
-- Claude Code overview: `https://docs.anthropic.com/en/docs/claude-code/overview`
-- Claude API docs: `https://docs.anthropic.com/`
+- Claude Code overview: `https://code.claude.com/docs/en/overview`
+- Claude Code best practices: `https://www.anthropic.com/engineering/claude-code-best-practices`
 - CLAUDE.md guide: `https://docs.anthropic.com/en/docs/claude-code/memory`
 
 **Feature-Specific:**
 - Plugins: `https://code.claude.com/docs/en/plugins`
 - Skills: `https://code.claude.com/docs/en/skills`
-- Permissions/IAM: `https://code.claude.com/docs/en/iam`
-- MCP: `https://modelcontextprotocol.io/`
-- Hooks: `https://docs.anthropic.com/en/docs/claude-code/hooks`
+- Settings & Permissions: `https://code.claude.com/docs/en/settings`
+- MCP servers: `https://code.claude.com/docs/en/mcp`
+- Hooks: `https://code.claude.com/docs/en/hooks-guide`
+
+**External Resources:**
+- Model Context Protocol: `https://modelcontextprotocol.io/`
 
 **Plugin Sources (GitHub repos):**
 - Official plugins: `https://github.com/anthropics/claude-plugins-official`
 - Agent skills: `https://github.com/anthropics/anthropic-agent-skills`
+- Claude Code repo: `https://github.com/anthropics/claude-code`
 
 **Plugin Installation:**
 To install plugins, users should:

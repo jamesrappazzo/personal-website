@@ -16,15 +16,15 @@ This is a living document that captures my current Claude Code setup. It's autom
 **Last Updated:** 2026-01-11
 
 **Browse my config files:**
-- [CLAUDE.md](.claude/CLAUDE.md) — My global instructions for Claude
-- [Project settings](.claude/settings.local.json) — Permissions for this repo
-- [claude-setup-blog skill](.claude/skills/claude-setup-blog/) — The skill that generates this post
+- [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) — My global instructions for Claude
+- [Project settings](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.local.json) — Permissions for this repo
+- [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
 
 ---
 
 ## What is Claude Code?
 
-**Claude Code** is Anthropic's agentic coding tool that lives in your terminal. It understands your codebase, executes routine tasks, explains complex code, and handles git workflows—all through natural language. [Learn more →](https://docs.anthropic.com/en/docs/claude-code/overview)
+**Claude Code** is Anthropic's agentic coding tool that lives in your terminal. It understands your codebase, executes routine tasks, explains complex code, and handles git workflows—all through natural language. [Learn more →](https://code.claude.com/docs/en/overview)
 
 I use it as my primary development assistant for everything from writing features to reviewing code to managing git workflows.
 
@@ -45,7 +45,7 @@ Key things I tell Claude:
 
 ## Plugins
 
-**What are plugins?** Plugins extend Claude Code with specialized capabilities—from document editing to code review. Think of them as apps for Claude that add new skills and slash commands. [Learn more →](https://code.claude.com/docs/en/plugins)
+**What are plugins?** Plugins extend Claude Code with specialized capabilities—from document editing to code review. A plugin can include slash commands, agents, skills, hooks, and MCP servers. [Learn more →](https://code.claude.com/docs/en/plugins)
 
 I have the following plugins enabled:
 
@@ -66,7 +66,7 @@ I have the following plugins enabled:
 
 ## Skills
 
-**What are skills?** Skills are reusable prompt packages that Claude loads automatically when relevant. Unlike slash commands (which you invoke explicitly), skills are triggered by Claude based on your request. They can bundle instructions, scripts, and templates. [Learn more →](https://code.claude.com/docs/en/skills)
+**What are skills?** A skill is a markdown file that teaches Claude how to do something specific. When you ask Claude something that matches a skill's purpose, Claude automatically loads and applies it. Skills can bundle instructions, scripts, and templates. [Learn more →](https://code.claude.com/docs/en/skills)
 
 I have one custom skill:
 
@@ -80,7 +80,7 @@ The skill is self-improving: each time it runs, it updates itself with new knowl
 
 ## Permissions
 
-**What are permissions?** Claude Code uses an allow/deny/ask system to control what actions it can take. This keeps you in control of what Claude can do on your machine. [Learn more →](https://code.claude.com/docs/en/iam)
+**What are permissions?** Claude Code uses an allow/deny/ask system to control what actions it can take. Rules are checked in order: deny rules block regardless of other rules, allow rules permit if matched, and ask rules prompt for approval. [Learn more →](https://code.claude.com/docs/en/settings)
 
 ### Global Permissions
 
@@ -121,13 +121,17 @@ Save this to `~/.claude/settings.local.json`:
 
 ## MCP Servers
 
-I don't currently use MCP (Model Context Protocol) servers. [Learn about MCP →](https://modelcontextprotocol.io/)
+**What are MCP servers?** MCP (Model Context Protocol) is an open standard for AI-tool integrations. MCP servers give Claude Code access to external tools, databases, and APIs. [Learn about MCP →](https://code.claude.com/docs/en/mcp)
+
+I don't currently use MCP servers. [Get started with MCP →](https://modelcontextprotocol.io/)
 
 ---
 
 ## Hooks
 
-I don't currently use Claude hooks or git hooks with Claude Code. [Learn about hooks →](https://docs.anthropic.com/en/docs/claude-code/hooks)
+**What are hooks?** Hooks are user-defined shell commands that execute at various points in Claude Code's lifecycle. They provide deterministic control—ensuring certain actions always happen rather than relying on the LLM to choose to run them. [Learn about hooks →](https://code.claude.com/docs/en/hooks-guide)
+
+I don't currently use Claude hooks or git hooks with Claude Code.
 
 ---
 
@@ -295,13 +299,17 @@ Commits, pushes, and opens a PR in one command.
 
 ## Resources
 
-- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code/overview)
-- [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
-- [Claude Code Skills](https://code.claude.com/docs/en/skills)
-- [Claude Code Permissions](https://code.claude.com/docs/en/iam)
+- [Claude Code Overview](https://code.claude.com/docs/en/overview)
+- [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
+- [Plugins Documentation](https://code.claude.com/docs/en/plugins)
+- [Skills Documentation](https://code.claude.com/docs/en/skills)
+- [Settings & Permissions](https://code.claude.com/docs/en/settings)
+- [Hooks Guide](https://code.claude.com/docs/en/hooks-guide)
+- [MCP Documentation](https://code.claude.com/docs/en/mcp)
 - [CLAUDE.md Guide](https://docs.anthropic.com/en/docs/claude-code/memory)
-- [MCP (Model Context Protocol)](https://modelcontextprotocol.io/)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Official Plugins Repo](https://github.com/anthropics/claude-plugins-official)
+- [Anthropic Agent Skills](https://github.com/anthropics/anthropic-agent-skills)
 
 ---
 
