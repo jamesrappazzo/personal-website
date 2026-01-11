@@ -1,0 +1,433 @@
+/* Industrial Minimal Theme - Baltimore-inspired */
+/* Import DM Sans - strong geometric sans with industrial feel */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+    /* Industrial Color Palette */
+    --concrete-dark: #2a2a2a;
+    --concrete-mid: #3d3d3d;
+    --concrete-light: #5a5a5a;
+    --steel-blue: #4a5f7a;
+    --steel-blue-light: #6b7f99;
+    --warm-rust: #b85c38;
+    --warm-rust-light: #d4734e;
+    --warehouse-white: #f5f5f0;
+    --industrial-border: #454545;
+
+    /* Override PaperMod variables */
+    --theme: var(--warehouse-white);
+    --entry: #ffffff;
+    --primary: var(--concrete-dark);
+    --secondary: var(--concrete-light);
+    --tertiary: #e8e8e3;
+    --content: var(--concrete-mid);
+    --hljs-bg: var(--concrete-dark);
+    --code-bg: #f0f0eb;
+    --border: var(--industrial-border);
+}
+
+.dark {
+    /* Dark Industrial Palette - Warehouse at night */
+    --theme: #1c1c1c;
+    --entry: #252525;
+    --primary: #e8e8e3;
+    --secondary: #a8a8a0;
+    --tertiary: #303030;
+    --content: #c5c5be;
+    --hljs-bg: #252525;
+    --code-bg: #2a2a2a;
+    --border: #3a3a3a;
+
+    /* Slightly brighter rust for dark mode contrast */
+    --warm-rust: #d4734e;
+    --warm-rust-light: #e8856a;
+
+    /* Warmer steel tones for dark mode */
+    --steel-blue: #7a8f9e;
+    --steel-blue-light: #95a8b5;
+}
+
+/* Base Typography */
+body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+    background: var(--theme);
+    color: var(--primary);
+}
+
+/* Subtle grain texture overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.dark body::before {
+    opacity: 0.05;
+}
+
+/* Strong Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--primary);
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--warm-rust);
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Code styling - monospace with industrial feel */
+code, kbd, pre {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+code {
+    background: var(--code-bg);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--primary);
+}
+
+pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+pre code {
+    border: none;
+    background: transparent;
+}
+
+.dark pre {
+    background: var(--code-bg);
+}
+
+.dark code {
+    background: var(--code-bg);
+}
+
+/* Home Info Styling - Bold and Industrial */
+.home-info {
+    padding: 4rem 0 2rem 0;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.home-info h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.home-info .entry-content {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--steel-blue);
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+.home-info .entry-content p {
+    margin-bottom: 1rem;
+}
+
+.home-info .entry-content a {
+    color: var(--steel-blue);
+    text-decoration: none;
+    border-bottom: 1px solid var(--steel-blue-light);
+    transition: all 0.2s ease;
+}
+
+.home-info .entry-content a:hover {
+    color: var(--warm-rust);
+    border-bottom-color: var(--warm-rust);
+}
+
+/* Main content area */
+.main {
+    max-width: 800px;
+    padding: 2rem 1.5rem;
+}
+
+/* Post entries - clean industrial cards */
+.post-entry {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.post-entry::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--warm-rust);
+    transition: width 0.3s ease;
+}
+
+.post-entry:hover {
+    border-color: var(--steel-blue);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.dark .post-entry:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.post-entry:hover::after {
+    width: 100%;
+}
+
+.post-entry .entry-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    border: none;
+    padding: 0;
+}
+
+.post-entry .entry-content {
+    color: var(--content);
+    line-height: 1.7;
+}
+
+/* Entry meta - subtle industrial details */
+.entry-header .entry-meta,
+.post-meta {
+    color: var(--steel-blue);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* Links - rust accent on hover */
+a {
+    color: var(--steel-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+a:hover {
+    color: var(--warm-rust);
+    border-bottom-color: var(--warm-rust);
+}
+
+.post-content a {
+    border-bottom: 1px solid var(--steel-blue-light);
+}
+
+.post-content a:hover {
+    border-bottom-color: var(--warm-rust);
+}
+
+/* Header - minimal and functional */
+.nav {
+    border-bottom: 2px solid var(--border);
+    background: var(--theme);
+    padding: 1rem 0;
+}
+
+.logo a {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+#menu {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+#menu a {
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    color: var(--primary);
+    border-bottom: 2px solid transparent;
+    padding-bottom: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+#menu a:hover {
+    color: var(--warm-rust);
+    border-bottom-color: var(--warm-rust);
+}
+
+/* Make social links smaller and subtler */
+#menu a[href*="github.com"],
+#menu a[href*="linkedin.com"],
+#menu a[href*="goodreads.com"] {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+#menu a[href*="github.com"]:hover,
+#menu a[href*="linkedin.com"]:hover,
+#menu a[href*="goodreads.com"]:hover {
+    opacity: 1;
+}
+
+/* Footer - industrial detail */
+footer {
+    border-top: 2px solid var(--border);
+    margin-top: 4rem;
+    padding: 2rem 0;
+}
+
+/* About page specific */
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+/* Tag badges - industrial style */
+.terms-tags a {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.terms-tags a:hover {
+    background: var(--warm-rust);
+    color: white;
+    border-color: var(--warm-rust);
+    transform: translateY(-2px);
+}
+
+/* Pagination - clean and functional */
+.page-header {
+    margin-bottom: 3rem;
+}
+
+.page-header h1 {
+    border-bottom: 3px solid var(--warm-rust);
+    padding-bottom: 1rem;
+}
+
+/* Post List Container */
+.post-list {
+    margin-top: 3rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.home-info,
+.post-entry,
+.post-content > * {
+    animation: fadeInUp 0.6s ease backwards;
+}
+
+.home-info {
+    animation-delay: 0.1s;
+}
+
+.post-entry:nth-child(1) { animation-delay: 0.2s; }
+.post-entry:nth-child(2) { animation-delay: 0.3s; }
+.post-entry:nth-child(3) { animation-delay: 0.4s; }
+.post-entry:nth-child(4) { animation-delay: 0.5s; }
+
+/* Responsive refinements */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.25rem;
+    }
+
+    .profile .profile_inner h1 {
+        font-size: 2.5rem;
+    }
+
+    .profile .profile_inner .subtitle {
+        font-size: 1.1rem;
+    }
+
+    .main {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* Refined scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--theme);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--steel-blue);
+    border: 2px solid var(--theme);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--warm-rust);
+}
