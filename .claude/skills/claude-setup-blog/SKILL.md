@@ -201,6 +201,56 @@ Use **technical documentation style**:
 - Use bullet points and lists for readability
 - Add inline code formatting for commands and file paths
 
+### Required Sections
+
+Every blog post must include these sections:
+
+1. **Overview** - Brief intro with "Browse my config files" quick links:
+   ```markdown
+   **Browse my config files:**
+   - [CLAUDE.md](.claude/CLAUDE.md) — My global instructions for Claude
+   - [Project settings](.claude/settings.local.json) — Permissions for this repo
+   - [claude-setup-blog skill](.claude/skills/claude-setup-blog/) — The skill that generates this post
+   ```
+
+2. **CLAUDE.md** - Explain what CLAUDE.md is, link to yours, summarize key points:
+   ```markdown
+   ## CLAUDE.md
+
+   **What is CLAUDE.md?** A special file that Claude automatically pulls into context... [Learn more →](docs-link)
+
+   **My CLAUDE.md:** [View file →](github-link-to-your-file)
+
+   Key things I tell Claude:
+   - Bullet point summaries of your CLAUDE.md content
+   ```
+
+3. **Plugins** (table format with sources):
+   | Plugin | What I Use It For | Source |
+   |--------|-------------------|--------|
+   | **document-skills** | Creating DOCX, PDF files | [anthropic-agent-skills](github-link) |
+
+4. **Skills** (table format with sources)
+
+5. **Permissions** - Global and project permissions with code blocks
+
+6. **MCP Servers** - Even if empty, note "Not currently configured" with doc link
+
+7. **Hooks** - Even if empty, note "Not currently configured" with doc link
+
+8. **How to Replicate My Setup** - Step-by-step numbered instructions
+
+9. **Workflows I Use Daily** - Practical usage examples
+
+10. **Files in This Repo** - Table linking to all Claude config files:
+    | File | Description |
+    |------|-------------|
+    | [.claude/CLAUDE.md](github-link) | My global Claude instructions |
+
+11. **Resources** - Links to official documentation
+
+12. **Changelog** - Release notes with PR links
+
 ### Sections to Generate
 
 **Global Settings**: Show configuration as formatted code blocks:
@@ -211,11 +261,11 @@ Use **technical documentation style**:
 }
 ```
 
-**Enabled Plugins**: List each plugin with brief description:
-- `document-skills` - Document creation and editing (DOCX, PDF, XLSX, etc.)
-- `frontend-design` - Build beautiful web interfaces
-- `github` - GitHub integration and PR management
-- etc.
+**Enabled Plugins**: Use table format with Source column linking to GitHub repos:
+| Plugin | What I Use It For | Source |
+|--------|-------------------|--------|
+| **document-skills** | Document creation and editing (DOCX, PDF, XLSX, etc.) | [anthropic-agent-skills](https://github.com/anthropics/anthropic-agent-skills) |
+| **frontend-design** | Build beautiful web interfaces | [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) |
 
 **MCP Servers**: Document each configured server:
 ```json
@@ -360,20 +410,48 @@ The changelog follows a **release notes style** similar to software projects. Ea
 3. **Keep it current**: Remove outdated information, don't just append
 4. **Replication-friendly**: A reader should be able to copy your setup from this post
 
+### Linking Requirements
+
+**CRITICAL:** Every external tool, plugin, or resource mentioned MUST link to its official source.
+
+1. **Plugins**: Always include a Source column in plugin tables linking to the GitHub repo
+   - Official plugins → `https://github.com/anthropics/claude-plugins-official`
+   - Agent skills → `https://github.com/anthropics/anthropic-agent-skills`
+
+2. **Config Files in Repo**: Link to the actual files in your GitHub repo
+   - Use format: `[.claude/CLAUDE.md](https://github.com/username/repo/blob/main/.claude/CLAUDE.md)`
+   - Include a "Files in This Repo" table at the bottom
+
+3. **Documentation**: Link to official docs for each Claude Code feature explained
+   - Use arrow format: `[Learn more →](url)`
+
+4. **Skills**: Include Source column linking to skill location in repo
+
+5. **Quick Links**: Add "Browse my config files" links at the top of Overview section
+
 ## Documentation Links
 
 When generating the blog post, include these links (verified January 2026):
 
 **Core Documentation:**
-- Claude Code overview: `https://docs.anthropic.com/en/docs/claude-code/overview`
-- Claude API docs: `https://docs.anthropic.com/`
+- Claude Code overview: `https://code.claude.com/docs/en/overview`
+- Claude Code best practices: `https://www.anthropic.com/engineering/claude-code-best-practices`
+- CLAUDE.md guide: `https://docs.anthropic.com/en/docs/claude-code/memory`
 
 **Feature-Specific:**
 - Plugins: `https://code.claude.com/docs/en/plugins`
 - Skills: `https://code.claude.com/docs/en/skills`
-- Permissions/IAM: `https://code.claude.com/docs/en/iam`
-- MCP: `https://modelcontextprotocol.io/`
-- Hooks: `https://docs.anthropic.com/en/docs/claude-code/hooks`
+- Settings & Permissions: `https://code.claude.com/docs/en/settings`
+- MCP servers: `https://code.claude.com/docs/en/mcp`
+- Hooks: `https://code.claude.com/docs/en/hooks-guide`
+
+**External Resources:**
+- Model Context Protocol: `https://modelcontextprotocol.io/`
+
+**Plugin Sources (GitHub repos):**
+- Official plugins: `https://github.com/anthropics/claude-plugins-official`
+- Agent skills: `https://github.com/anthropics/anthropic-agent-skills`
+- Claude Code repo: `https://github.com/anthropics/claude-code`
 
 **Plugin Installation:**
 To install plugins, users should:
