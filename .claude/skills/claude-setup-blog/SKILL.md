@@ -78,10 +78,24 @@ Using the scan results, generate the blog post content by:
 
 3. Write to `content/posts/my-claude-setup.md` in the Hugo site
 
-### Step 3: Create Pull Request
+### Step 3: Create or Update Pull Request
 
-After updating the blog post:
+After updating the blog post, check for an existing open PR before creating a new one:
 
+**First, check for existing PR:**
+```bash
+gh pr list --search "claude setup" --state open --json number,headRefName,title
+```
+
+**If an existing PR exists:**
+1. Check out the existing branch: `git checkout <branch-name>`
+2. Pull latest changes: `git pull`
+3. Make your updates to the blog post
+4. Commit with message describing what changed
+5. Push to the existing branch: `git push`
+6. The existing PR will be updated automatically
+
+**If no existing PR:**
 1. Create a new git branch: `update-claude-setup-{timestamp}`
 2. Commit the changes with message:
    ```
@@ -93,6 +107,8 @@ After updating the blog post:
    ```
 3. Push the branch
 4. Create a PR using `gh pr create` with description explaining what changed
+
+**Important:** Never have more than one open PR for the Claude setup blog at a time. Always reuse an existing PR if one is open.
 
 ## Content Generation Guidelines
 
