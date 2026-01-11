@@ -2,16 +2,16 @@
 title: "My Claude Code Setup"
 date: 2026-01-11
 draft: false
-tags: ["claude", "ai", "development", "tooling"]
+tags: ["claude", "AI", "development", "tooling"]
 categories: ["Development"]
-description: "A living document of my Claude Code configuration, plugins, and workflows"
+description: "My Claude Code configuration, plugins, and workflows"
 ShowToc: true
 TocOpen: true
 ---
 
 ## Overview
 
-This is a living document that captures my current Claude Code setup. It's automatically updated to reflect my evolving configuration as I discover new workflows and tools.
+My current Claude Code configuration—automatically kept in sync by a custom skill.
 
 **Last Updated:** 2026-01-11
 
