@@ -1,6 +1,6 @@
 ---
 title: "My Claude Code Setup"
-date: 2026-01-10
+date: 2026-01-11
 draft: false
 tags: ["claude", "ai", "development", "tooling"]
 categories: ["Development"]
@@ -11,7 +11,7 @@ description: "A living document of my Claude Code configuration, plugins, and wo
 
 This is a living document that captures my current Claude Code setup. It's automatically updated to reflect my evolving configuration as I discover new workflows and tools.
 
-**Last Updated:** 2026-01-10
+**Last Updated:** 2026-01-11
 
 ## What is Claude Code?
 
@@ -83,7 +83,27 @@ For my personal website project, I have additional permissions configured:
       "Bash(claude mcp list:*)",
       "Skill(document-skills:skill-creator)",
       "Bash(python:*)",
-      "Bash(claude skill install:*)"
+      "Bash(python3:*)",
+      "Bash(claude skill install:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git restore:*)",
+      "Bash(git log:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh api:*)",
+      "Bash(hugo:*)",
+      "Bash(hugo server:*)",
+      "Bash(hugo version:*)",
+      "Bash(pkill hugo:*)",
+      "Bash(curl:*)",
+      "Bash(ls:*)",
+      "Bash(awk:*)",
+      "Bash(grep:*)",
+      "Skill(frontend-design)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []
@@ -92,11 +112,12 @@ For my personal website project, I have additional permissions configured:
 ```
 
 These permissions allow Claude to:
-- Read files and explore directory structure
-- Use GitHub CLI for repo management
-- Create and manage custom skills
-- Run Python scripts for automation
-- Install skills for extending capabilities
+- **File exploration** - Read files, list directories, explore project structure
+- **Git workflow** - Full git operations including checkout, add, commit, push, restore, and log
+- **GitHub integration** - Create PRs, interact with GitHub API, view repo information
+- **Hugo development** - Run Hugo dev server, build site, manage Hugo processes
+- **Custom skills** - Create and install skills, use frontend-design for UI work
+- **Automation** - Run Python scripts, curl requests, and shell utilities
 
 ## Hooks & Automations
 
@@ -186,7 +207,19 @@ cat > .claude/settings.local.json << 'EOF'
       "Bash(du:*)",
       "Bash(gh repo view:*)",
       "Bash(claude mcp list:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git restore:*)",
+      "Bash(git log:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh api:*)",
+      "Bash(hugo:*)",
+      "Bash(hugo server:*)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []
@@ -265,6 +298,27 @@ I build custom skills for:
 - **Documentation** - Keep documentation in sync with reality
 - **Domain knowledge** - Encode specialized knowledge for reuse
 - **Open source sharing** - Enable others to use my workflows
+
+## Changelog
+
+### 2026-01-11 ([PR #3](https://github.com/jamesrappazzo/personal-website/pull/3))
+
+**Added**
+- Git workflow permissions (checkout, add, commit, push, restore, log)
+- GitHub API permissions (gh pr create, gh api)
+- Hugo development commands (server, build, version, pkill)
+- frontend-design skill permission
+- WebFetch for github.com domain
+
+### 2026-01-10 ([PR #1](https://github.com/jamesrappazzo/personal-website/pull/1))
+
+**Added**
+- Initial setup documentation
+- Global settings and permissions configuration
+- Enabled plugins list with descriptions
+- Project-specific permissions for personal-website
+- Replication instructions and workflows
+- claude-setup-blog skill for auto-generating this post
 
 ## Resources
 

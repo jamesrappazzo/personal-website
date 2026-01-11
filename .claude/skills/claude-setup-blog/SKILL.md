@@ -21,6 +21,7 @@ The blog post includes:
 - MCP server configurations
 - Hooks and automations
 - Instructions for others to replicate your setup
+- A changelog tracking all updates with PR links
 
 ## Workflow
 
@@ -157,6 +158,91 @@ If certain configurations are empty (no MCP servers, no custom skills):
 - Show a placeholder message: "No MCP servers currently configured"
 - Provide links to documentation for adding them
 - Don't skip the section entirely
+
+## Changelog Format
+
+The changelog follows a **release notes style** similar to software projects. Each update is a versioned entry with PR links.
+
+### Structure
+
+```markdown
+## Changelog
+
+### YYYY-MM-DD ([PR #N](https://github.com/jamesrappazzo/personal-website/pull/N))
+
+**Added**
+- New feature or configuration item
+- Another new item
+
+**Changed**
+- Modified behavior or configuration
+
+**Removed**
+- Deleted configuration or feature
+
+**Fixed**
+- Bug fix or correction
+```
+
+### Guidelines
+
+1. **Date format**: ISO 8601 (YYYY-MM-DD)
+2. **PR link**: Always link to the PR that introduced the changes
+3. **Categories**: Use standard changelog categories:
+   - **Added** - New configurations, plugins, permissions, or features
+   - **Changed** - Modifications to existing configurations
+   - **Removed** - Deleted or disabled configurations
+   - **Fixed** - Corrections to documentation or configuration errors
+4. **Entry style**:
+   - Start with action verb (Add, Update, Remove, Fix)
+   - Be specific but concise
+   - Group related changes under one bullet when appropriate
+5. **Order**: Newest entries at the top
+6. **Omit empty categories**: Only include categories that have changes
+
+### Example Entry
+
+```markdown
+### 2026-01-15 ([PR #5](https://github.com/jamesrappazzo/personal-website/pull/5))
+
+**Added**
+- MCP server for GitHub Copilot integration
+- New permission for Bash(docker:*)
+
+**Changed**
+- Updated default model from Sonnet to Opus for complex tasks
+
+**Removed**
+- Deprecated typescript-lsp plugin (now built-in)
+```
+
+## Blog Style Guide
+
+### Voice & Tone
+
+- **First person**: "I use...", "My configuration...", "I prefer..."
+- **Technical but approachable**: Assume readers are developers but explain the "why"
+- **Practical focus**: Emphasize real-world usage over theoretical benefits
+
+### Code Blocks
+
+- **Show full configs** for things users would copy (settings.json, permissions)
+- **Use syntax highlighting**: Always specify language (json, bash, etc.)
+- **Add comments** in bash scripts for clarity
+
+### Sections
+
+- **Headers**: Use `##` for main sections, `###` for subsections
+- **Lists**: Use bullet points for features/items, numbered lists for steps
+- **Bold**: Use for emphasis on key terms, plugin names, and categories
+- **Inline code**: Use backticks for file paths, commands, and config keys
+
+### Content Principles
+
+1. **Show, don't just tell**: Include actual config snippets, not just descriptions
+2. **Explain rationale**: Each major choice should have a "why" explanation
+3. **Keep it current**: Remove outdated information, don't just append
+4. **Replication-friendly**: A reader should be able to copy your setup from this post
 
 ## Resources
 
