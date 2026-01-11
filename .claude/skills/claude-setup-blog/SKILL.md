@@ -25,6 +25,25 @@ The blog post includes:
 
 ## Workflow
 
+### Step 0: Research Latest Documentation
+
+Before generating content, use **WebSearch** to find the latest official guidance for each Claude Code feature being documented:
+
+**Required searches:**
+- "Claude Code documentation 2026" → Get latest official docs
+- "Claude Code plugins guide" → Current plugin system docs
+- "Claude Code MCP servers setup" → MCP configuration guide
+- "Claude Code skills tutorial" → Skills documentation
+- "Claude Code hooks configuration" → Hooks guide
+- "Claude Code permissions settings" → Permissions reference
+
+**For each feature mentioned, find and include:**
+- Official documentation URL
+- Current best practices
+- Any recent changes or deprecations
+
+Store the URLs to include as reference links in the blog post.
+
 ### Step 1: Scan Configuration
 
 Run the configuration scanner to collect data:
@@ -59,10 +78,24 @@ Using the scan results, generate the blog post content by:
 
 3. Write to `content/posts/my-claude-setup.md` in the Hugo site
 
-### Step 3: Create Pull Request
+### Step 3: Create or Update Pull Request
 
-After updating the blog post:
+After updating the blog post, check for an existing open PR before creating a new one:
 
+**First, check for existing PR:**
+```bash
+gh pr list --search "claude setup" --state open --json number,headRefName,title
+```
+
+**If an existing PR exists:**
+1. Check out the existing branch: `git checkout <branch-name>`
+2. Pull latest changes: `git pull`
+3. Make your updates to the blog post
+4. Commit with message describing what changed
+5. Push to the existing branch: `git push`
+6. The existing PR will be updated automatically
+
+**If no existing PR:**
 1. Create a new git branch: `update-claude-setup-{timestamp}`
 2. Commit the changes with message:
    ```
@@ -75,7 +108,90 @@ After updating the blog post:
 3. Push the branch
 4. Create a PR using `gh pr create` with description explaining what changed
 
+**Important:** Never have more than one open PR for the Claude setup blog at a time. Always reuse an existing PR if one is open.
+
+### Step 4: Self-Improve the Skill
+
+After generating the blog post, review what you learned during the process and update this skill if needed.
+
+**Ask yourself:**
+- Did web searches reveal new Claude Code features not covered in this skill?
+- Did documentation show better ways to explain concepts?
+- Are there new best practices that should be incorporated?
+- Did you discover new configuration options worth documenting?
+- Are any instructions in this skill outdated?
+
+**If yes to any of the above:**
+1. Update `.claude/skills/claude-setup-blog/SKILL.md` with the new knowledge
+2. Add updates to the "Documentation Links" section if new URLs were found
+3. Update example formats if better patterns were discovered
+4. Include SKILL.md changes in the same commit/PR as the blog post update
+
+**What to update:**
+- New features → Add to "Required explanations" list
+- New URLs → Update "Documentation Links" section
+- Better explanation patterns → Update example formats
+- Deprecated features → Remove or mark as deprecated
+- New configuration options → Add to scanner output documentation
+
+**Example:** If you discover Claude Code now has a "themes" feature, add it to the required explanations list and document how to scan for theme configurations.
+
+This keeps the skill evergreen and improves with each run.
+
 ## Content Generation Guidelines
+
+### Beginner-Friendly Explanations (For Features You Use)
+
+Only explain features that are **actually configured in your setup**. This is a personal setup post, not a Claude Code tutorial.
+
+**Rule:** If you're using it → explain it briefly with a doc link. If you're not using it → just note "Not currently configured" with a link for readers who want to learn more.
+
+**For features you ARE using:**
+```markdown
+### Plugins
+
+**What are plugins?** Plugins extend Claude Code with specialized capabilities. [Learn more →](https://docs.anthropic.com/...)
+
+I have the following plugins enabled:
+- **document-skills** - I use this for...
+```
+
+**For features you're NOT using:**
+```markdown
+### MCP Servers
+
+I don't currently use MCP servers. [Learn about MCP →](https://modelcontextprotocol.io/)
+```
+
+**Keep it focused:** The blog post documents YOUR setup, not all possible Claude Code features. Only go deep on things you actually use and can speak to from experience.
+
+### Copy-Friendly Setup
+
+Make it **extremely easy** to replicate the setup. Requirements:
+
+1. **Single copy-paste blocks** - Each config file should be a complete, standalone code block that can be copied and pasted directly
+2. **No `...` or truncation** - Show the FULL configuration, not abbreviated versions
+3. **Include file paths** - Always show where the file should be saved
+4. **Sequential numbered steps** - Clear 1, 2, 3 order for setup
+5. **Verification commands** - After each step, show how to verify it worked
+
+**Example format:**
+```markdown
+**Step 1: Create global settings**
+
+Save this to `~/.claude/settings.json`:
+```json
+{
+  "model": "sonnet",
+  "enabledPlugins": {
+    "document-skills@anthropic-agent-skills": true,
+    ...full config...
+  }
+}
+```
+
+Verify: `cat ~/.claude/settings.json`
+```
 
 ### Writing Style
 
@@ -243,6 +359,29 @@ The changelog follows a **release notes style** similar to software projects. Ea
 2. **Explain rationale**: Each major choice should have a "why" explanation
 3. **Keep it current**: Remove outdated information, don't just append
 4. **Replication-friendly**: A reader should be able to copy your setup from this post
+
+## Documentation Links
+
+When generating the blog post, include these links (verified January 2026):
+
+**Core Documentation:**
+- Claude Code overview: `https://docs.anthropic.com/en/docs/claude-code/overview`
+- Claude API docs: `https://docs.anthropic.com/`
+
+**Feature-Specific:**
+- Plugins: `https://code.claude.com/docs/en/plugins`
+- Skills: `https://code.claude.com/docs/en/skills`
+- Permissions/IAM: `https://code.claude.com/docs/en/iam`
+- MCP: `https://modelcontextprotocol.io/`
+- Hooks: `https://docs.anthropic.com/en/docs/claude-code/hooks`
+
+**Plugin Installation:**
+To install plugins, users should:
+1. Add marketplace: `/plugin marketplace add anthropics/claude-plugins-official`
+2. Browse and enable via `/plugin` menu
+3. Or add directly to `~/.claude/settings.json` under `enabledPlugins`
+
+**Important:** URLs change. Always verify links are valid via WebSearch before including them.
 
 ## Resources
 
