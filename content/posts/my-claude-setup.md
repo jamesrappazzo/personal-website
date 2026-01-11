@@ -5,6 +5,8 @@ draft: false
 tags: ["claude", "ai", "development", "tooling"]
 categories: ["Development"]
 description: "A living document of my Claude Code configuration, plugins, and workflows"
+ShowToc: true
+TocOpen: true
 ---
 
 ## Overview

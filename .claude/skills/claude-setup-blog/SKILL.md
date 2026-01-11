@@ -25,6 +25,25 @@ The blog post includes:
 
 ## Workflow
 
+### Step 0: Research Latest Documentation
+
+Before generating content, use **WebSearch** to find the latest official guidance for each Claude Code feature being documented:
+
+**Required searches:**
+- "Claude Code documentation 2026" → Get latest official docs
+- "Claude Code plugins guide" → Current plugin system docs
+- "Claude Code MCP servers setup" → MCP configuration guide
+- "Claude Code skills tutorial" → Skills documentation
+- "Claude Code hooks configuration" → Hooks guide
+- "Claude Code permissions settings" → Permissions reference
+
+**For each feature mentioned, find and include:**
+- Official documentation URL
+- Current best practices
+- Any recent changes or deprecations
+
+Store the URLs to include as reference links in the blog post.
+
 ### Step 1: Scan Configuration
 
 Run the configuration scanner to collect data:
@@ -76,6 +95,57 @@ After updating the blog post:
 4. Create a PR using `gh pr create` with description explaining what changed
 
 ## Content Generation Guidelines
+
+### Beginner-Friendly Explanations
+
+Every major concept MUST include a brief explanation for newcomers. Assume the reader may not know what these things are:
+
+**Required explanations (with official doc links):**
+
+- **What is Claude Code?** - Brief intro (1-2 sentences) + link to official docs
+- **What are Plugins?** - Explain that plugins extend Claude's capabilities with specialized tools. Link to plugin docs.
+- **What are MCP Servers?** - Explain Model Context Protocol - how Claude connects to external services. Link to modelcontextprotocol.io
+- **What are Skills?** - Explain custom reusable prompts/workflows. Link to skills docs.
+- **What are Hooks?** - Explain automated actions triggered by events. Link to hooks docs.
+- **What are Permissions?** - Explain the allow/deny/ask system for tool access. Link to permissions docs.
+
+**Format for explanations:**
+```markdown
+### Plugins
+
+**What are plugins?** Plugins extend Claude Code with specialized capabilities - from document editing to code review. They're like apps for Claude. [Learn more →](https://docs.anthropic.com/...)
+
+I have the following plugins enabled:
+...
+```
+
+### Copy-Friendly Setup
+
+Make it **extremely easy** to replicate the setup. Requirements:
+
+1. **Single copy-paste blocks** - Each config file should be a complete, standalone code block that can be copied and pasted directly
+2. **No `...` or truncation** - Show the FULL configuration, not abbreviated versions
+3. **Include file paths** - Always show where the file should be saved
+4. **Sequential numbered steps** - Clear 1, 2, 3 order for setup
+5. **Verification commands** - After each step, show how to verify it worked
+
+**Example format:**
+```markdown
+**Step 1: Create global settings**
+
+Save this to `~/.claude/settings.json`:
+```json
+{
+  "model": "sonnet",
+  "enabledPlugins": {
+    "document-skills@anthropic-agent-skills": true,
+    ...full config...
+  }
+}
+```
+
+Verify: `cat ~/.claude/settings.json`
+```
 
 ### Writing Style
 
@@ -243,6 +313,23 @@ The changelog follows a **release notes style** similar to software projects. Ea
 2. **Explain rationale**: Each major choice should have a "why" explanation
 3. **Keep it current**: Remove outdated information, don't just append
 4. **Replication-friendly**: A reader should be able to copy your setup from this post
+
+## Documentation Links
+
+When generating the blog post, include these links (verify via WebSearch that URLs are current):
+
+**Core Documentation:**
+- Claude Code main docs: `https://docs.anthropic.com/en/docs/claude-code`
+- Claude API docs: `https://docs.anthropic.com/`
+
+**Feature-Specific:**
+- Plugins: Search for current URL
+- MCP: `https://modelcontextprotocol.io/`
+- Skills: Search for current URL
+- Hooks: Search for current URL
+- Permissions: Search for current URL
+
+**Important:** URLs change. Always verify links are valid before including them. Use WebSearch to find the current official documentation for each feature.
 
 ## Resources
 
