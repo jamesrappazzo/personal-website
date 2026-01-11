@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.f49d66caae9ea0fd43f21f29e71a8d3e284517ed770f2aa86fa012953ad3c9ef.css" integrity="sha256-9J1myq6eoP1D8h8p5xqNPihFF&#43;13Dyqob6ASlTrTye8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.6fff4b504d57e666d3b52061d563cea133cde9bc32c2a3933f5494deffc8f7a3.css" integrity="sha256-b/9LUE1X5mbTtSBh1WPOoTPN6bwywqOTP1SU3v/I96M=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
@@ -100,14 +100,131 @@
             </div>
         </div>
         <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/jamesrappazzo" title="GitHub">
+                    <span>GitHub</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/james-rappazzo/" title="LinkedIn">
+                    <span>LinkedIn</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.goodreads.com/user/show/32345596-james" title="Goodreads">
+                    <span>Goodreads</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
 <main class="main"> 
+<article class="first-entry home-info">
+    <header class="entry-header">
+        <h1>James Rappazzo</h1>
+    </header>
+    <div class="entry-content">
+        Building agentic workflows. Based in Baltimore.
+    </div>
+    <footer class="entry-footer">
+        <div class="social-icons" >
+</div>
+
+    </footer>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">My Claude Code Setup
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Overview This is a living document that captures my current Claude Code setup. It’s automatically updated to reflect my evolving configuration as I discover new workflows and tools.
+Last Updated: 2026-01-11
+What is Claude Code? Claude Code is Anthropic’s official CLI tool that brings Claude AI into your terminal and development workflow. It provides an interactive agent that can read, write, and execute code with full context of your project.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-11 00:00:00 +0000 UTC'>January 11, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to My Claude Code Setup" href="http://localhost:1313/posts/my-claude-setup/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Building Better LLM Evaluations
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>The Evaluation Problem When you’re building agentic workflows, one of the hardest challenges is knowing whether your system is actually getting better. Unlike traditional software where you can write deterministic tests, LLM outputs are inherently probabilistic.
+I recently completed Hamel Husain’s “AI Evals for Engineers &amp; PMs” course, and it fundamentally changed how I approach evaluation. Here’s what I learned.
+Start with Simple Assertions Before you build complex eval frameworks, start with basic assertions:
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-08 00:00:00 +0000 UTC'>January 8, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Building Better LLM Evaluations" href="http://localhost:1313/posts/building-llm-evals/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Why Brandon Sanderson&#39;s Magic Systems Work
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Hard Magic and Software Systems As someone who builds software and reads a lot of fantasy, I’ve noticed something: Brandon Sanderson’s magic systems feel like well-designed APIs.
+His “First Law of Magic” is basically good software design: An author’s ability to solve conflict with magic is directly proportional to how well the reader understands said magic.
+Consistent Rules Create Emergent Complexity In the Mistborn series, Allomancy has clear, consistent rules:
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-05 00:00:00 +0000 UTC'>January 5, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Why Brandon Sanderson&#39;s Magic Systems Work" href="http://localhost:1313/posts/why-sanderson-works/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Three Agentic Workflow Patterns That Actually Work
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Moving Beyond Simple Chains Everyone starts with simple LLM chains: prompt → completion → done. But when you need agents that can reason, plan, and execute complex tasks, you need more sophisticated patterns.
+After building agentic workflows for market research analysis at NewtonX and in my current contracting work, I’ve found three patterns that consistently work in production.
+Pattern 1: Plan-Validate-Execute The most reliable pattern for complex tasks:
+Plan: Agent generates a step-by-step plan Validate: Second agent (or structured validation) checks the plan Execute: Agent executes each step with checkpoints This sounds slow, but it’s faster than having to retry failed workflows. The validation step catches 80% of issues before execution.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-03 00:00:00 +0000 UTC'>January 3, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Three Agentic Workflow Patterns That Actually Work" href="http://localhost:1313/posts/agentic-workflow-patterns/"></a>
+</article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">James Rappazzo</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">James Rappazzo</a></span> · 
 
     <span>
         Powered by

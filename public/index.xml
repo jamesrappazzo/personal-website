@@ -6,6 +6,46 @@
     <description>Recent content on James Rappazzo</description>
     <generator>Hugo -- 0.146.7</generator>
     <language>en-us</language>
+    <lastBuildDate>Sun, 11 Jan 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Claude Code Setup</title>
+      <link>http://localhost:1313/posts/my-claude-setup/</link>
+      <pubDate>Sun, 11 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/my-claude-setup/</guid>
+      <description>A living document of my Claude Code configuration, plugins, and workflows</description>
+    </item>
+    <item>
+      <title>Building Better LLM Evaluations</title>
+      <link>http://localhost:1313/posts/building-llm-evals/</link>
+      <pubDate>Thu, 08 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/building-llm-evals/</guid>
+      <description>Lessons learned from building evaluation pipelines for agentic workflows</description>
+    </item>
+    <item>
+      <title>Why Brandon Sanderson&#39;s Magic Systems Work</title>
+      <link>http://localhost:1313/posts/why-sanderson-works/</link>
+      <pubDate>Mon, 05 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/why-sanderson-works/</guid>
+      <description>What fantasy readers and software engineers can learn from hard magic systems</description>
+    </item>
+    <item>
+      <title>Three Agentic Workflow Patterns That Actually Work</title>
+      <link>http://localhost:1313/posts/agentic-workflow-patterns/</link>
+      <pubDate>Sat, 03 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/agentic-workflow-patterns/</guid>
+      <description>Practical patterns for building reliable agentic systems in production</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;h2 id=&#34;hi-im-james&#34;&gt;Hi, I&amp;rsquo;m James&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m an engineering leader focused on building agentic workflows and AI systems. I&amp;rsquo;ve spent the last 10+ years working on data and AI products, most recently leading the development of agentic quantitative market research tools.&lt;/p&gt;
+&lt;p&gt;Currently, I&amp;rsquo;m doing contracting work building agentic workflows and exploring how AI agents can solve complex problems at scale.&lt;/p&gt;
+&lt;h2 id=&#34;life-outside-of-code&#34;&gt;Life Outside of Code&lt;/h2&gt;
+&lt;p&gt;I live in Baltimore with my wife Lauren (a MIGS surgeon), our two-year-old son Frankie, our six-month-old daughter Margaux, and our dog. Our days are wonderfully full.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
