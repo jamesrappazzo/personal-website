@@ -17,7 +17,7 @@
 
 {{- if $pinned }}
 <section class="pinned-section">
-    <h2 class="section-title">Pinned</h2>
+    <h2>Pinned</h2>
     {{- range $pinned }}
     <article class="post-entry">
         {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
@@ -44,7 +44,7 @@
 {{- $paginator := .Paginate $notPinned }}
 {{- if gt (len $paginator.Pages) 0 }}
 <section class="posts-section">
-    <h2 class="section-title">Writing</h2>
+    <h2>Writing</h2>
     {{- range $paginator.Pages }}
     <article class="post-entry">
         {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}

@@ -162,7 +162,7 @@ pre code {
     font-size: 1.25rem;
     font-weight: 500;
     letter-spacing: -0.01em;
-    color: var(--steel-blue);
+    color: var(--content);
     line-height: 1.6;
     max-width: 600px;
 }
@@ -398,8 +398,9 @@ footer.footer {
     margin-bottom: 3rem;
 }
 
-.page-header h1 {
-    border-bottom: 3px solid var(--warm-rust);
+.page-header h1,
+.post-title {
+    border-bottom: 2px solid var(--warm-rust);
     padding-bottom: 1rem;
 }
 
@@ -416,22 +417,10 @@ footer.footer {
     border-top: 1px solid var(--border);
 }
 
-/* Section titles */
-.section-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--steel-blue);
-    margin: 3rem 0 1.5rem 0;
-    padding: 0;
-    border: none;
-}
-
 .pinned-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--warm-rust);
 }
 
 .posts-section {

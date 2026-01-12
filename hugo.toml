@@ -31,6 +31,11 @@ name = "email"
 url = "mailto:mail@jamesrappazzo.com"
 
 [[menu.main]]
+name = "Home"
+url = "/"
+weight = 5
+
+[[menu.main]]
 name = "About"
 url = "/about"
 weight = 10

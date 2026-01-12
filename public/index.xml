@@ -16,13 +16,11 @@
       <description>My Claude Code configuration, plugins, and workflows</description>
     </item>
     <item>
-      <title>About</title>
+      <title>Hi, I&#39;m James</title>
       <link>http://localhost:1313/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/about/</guid>
-      <description>&lt;h2 id=&#34;hi-im-james&#34;&gt;Hi, I&amp;rsquo;m James&lt;/h2&gt;
-&lt;p&gt;I&amp;rsquo;m a software engineering leader building with AI. I&amp;rsquo;ve spent the last decade working on data and AI products.&lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;m currently doing contract work building agentic workflows and exploring how to most effectively use AI agents.&lt;/p&gt;
+      <description>&lt;p&gt;I&amp;rsquo;m a software engineering leader building with AI. I&amp;rsquo;ve spent the last decade working on data and AI products. Currently, I&amp;rsquo;m doing some contract work building agentic systems.&lt;/p&gt;
 &lt;h2 id=&#34;life-outside-of-work&#34;&gt;Life Outside of Work&lt;/h2&gt;
 &lt;p&gt;I live in Baltimore with my wife Lauren, our two-year-old son Frankie, our six-month-old daughter Margaux, and our dog Obi. Our days are wonderfully full.&lt;/p&gt;
 &lt;p&gt;In the hour or so per day I have to myself, I&amp;rsquo;m usually reading, exercising, or working on a house project. I&amp;rsquo;m a huge fantasy fan (Brandon Sanderson is my favorite author). I&amp;rsquo;m currently working my way through Terry Pratchett&amp;rsquo;s Discworld series.&lt;/p&gt;</description>

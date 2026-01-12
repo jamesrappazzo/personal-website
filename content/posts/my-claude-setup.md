@@ -21,7 +21,6 @@ My current Claude Code configuration—automatically kept in sync by a custom sk
 - [Project settings](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) — Permissions for this repo
 - [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
 
----
 
 ## What is Claude Code?
 
@@ -29,7 +28,6 @@ My current Claude Code configuration—automatically kept in sync by a custom sk
 
 I use it as my primary development assistant for everything from writing features to reviewing code to managing git workflows.
 
----
 
 ## CLAUDE.md
 
@@ -42,7 +40,6 @@ Key things I tell Claude:
 - My git workflow: feature branch → `/feature-dev` → rebase → squash → PR → `/code-review`
 - Match existing code style, explain tradeoffs, prefer practical over over-engineered
 
----
 
 ## Plugins
 
@@ -63,7 +60,6 @@ I have the following plugins enabled:
 | [**agent-sdk-dev**](https://github.com/anthropics/claude-plugins-official) | Building Claude Agent SDK applications |
 | [**stripe**](https://github.com/anthropics/claude-plugins-official) | Stripe integration utilities |
 
----
 
 ## Skills
 
@@ -77,7 +73,6 @@ I have one custom skill:
 
 The skill is self-improving: each time it runs, it updates itself with new knowledge from documentation.
 
----
 
 ## Permissions
 
@@ -118,7 +113,6 @@ Save this to `~/.claude/settings.json`:
 - Python scripts for automation
 - Web searches for documentation
 
----
 
 ## MCP Servers
 
@@ -126,7 +120,6 @@ Save this to `~/.claude/settings.json`:
 
 I don't currently use MCP servers. [Get started with MCP →](https://modelcontextprotocol.io/)
 
----
 
 ## Hooks
 
@@ -134,7 +127,6 @@ I don't currently use MCP servers. [Get started with MCP →](https://modelconte
 
 I don't currently use Claude hooks or git hooks with Claude Code.
 
----
 
 ## How to Replicate My Setup
 
@@ -216,7 +208,6 @@ cd personal-website
 # The skill is at .claude/skills/claude-setup-blog/
 ```
 
----
 
 ## Workflows I Use Daily
 
@@ -244,7 +235,6 @@ Guided feature implementation—Claude explores the codebase, understands patter
 ```
 Commits, pushes, and opens a PR in one command.
 
----
 
 ## Why This Setup?
 
@@ -256,7 +246,6 @@ Commits, pushes, and opens a PR in one command.
 
 **Skills:** I build custom skills for repeated workflows. The claude-setup-blog skill keeps this documentation in sync automatically.
 
----
 
 ## Changelog
 
@@ -286,7 +275,6 @@ Commits, pushes, and opens a PR in one command.
 - Global settings and permissions configuration
 - claude-setup-blog skill for auto-generating this post
 
----
 
 ## Files in This Repo
 
@@ -296,7 +284,6 @@ Commits, pushes, and opens a PR in one command.
 | [.claude/settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) | Project permissions |
 | [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
 
----
 
 ## Resources
 
@@ -311,7 +298,5 @@ Commits, pushes, and opens a PR in one command.
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Official Plugins Repo](https://github.com/anthropics/claude-plugins-official)
 - [Document Skills (xlsx, docx, pdf, pptx)](https://github.com/anthropics/skills)
-
----
 
 *This post is automatically generated using my [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog). The skill scans my configuration, researches current documentation, and regenerates this content.*
