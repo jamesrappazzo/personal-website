@@ -3,13 +3,32 @@ languageCode = 'en-us'
 title = 'James Rappazzo'
 theme = 'PaperMod'
 
+[pagination]
+pagerSize = 5
+
 [params]
 showPostsOnHomePage = true
 mainSections = ["posts"]
 
 [params.homeInfoParams]
-Title = "James Rappazzo"
-Content = "Building agentic workflows. Based in Baltimore."
+Title = "Hi, I'm James."
+Content = "I build things with AI and write about what I learn. Sometimes other stuff, too."
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/jamesrappazzo"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/james-rappazzo/"
+
+[[params.socialIcons]]
+name = "goodreads"
+url = "https://www.goodreads.com/user/show/32345596-james"
+
+[[params.socialIcons]]
+name = "email"
+url = "mailto:mail@jamesrappazzo.com"
 
 [[menu.main]]
 name = "About"
@@ -20,19 +39,3 @@ weight = 10
 name = "Posts"
 url = "/posts"
 weight = 20
-
-[[menu.main]]
-name = "GitHub"
-url = "https://github.com/jamesrappazzo"
-weight = 30
-
-[[menu.main]]
-name = "LinkedIn"
-url = "https://www.linkedin.com/in/james-rappazzo/"
-weight = 40
-
-[[menu.main]]
-name = "Goodreads"
-url = "https://www.goodreads.com/user/show/32345596-james"
-weight = 50
-

@@ -7,6 +7,7 @@ categories: ["Development"]
 description: "My Claude Code configuration, plugins, and workflows"
 ShowToc: true
 TocOpen: true
+pinned: true
 ---
 
 ## Overview
