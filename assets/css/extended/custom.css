@@ -146,8 +146,7 @@ pre code {
 /* Home Info Styling - Bold and Industrial */
 .home-info {
     padding: 4rem 0 2rem 0;
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: none;
     text-align: left;
 }
 
@@ -163,7 +162,7 @@ pre code {
     font-size: 1.25rem;
     font-weight: 500;
     letter-spacing: -0.01em;
-    color: var(--steel-blue);
+    color: var(--content);
     line-height: 1.6;
     max-width: 600px;
 }
@@ -184,10 +183,42 @@ pre code {
     border-bottom-color: var(--warm-rust);
 }
 
-/* Main content area */
+/* Social Icons - Industrial styling */
+.home-info .social-icons {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.home-info .social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--steel-blue);
+    transition: all 0.2s ease;
+    background: var(--entry);
+}
+
+.home-info .social-icons a:hover {
+    color: var(--warehouse-white);
+    background: var(--warm-rust);
+    border-color: var(--warm-rust);
+    transform: translateY(-2px);
+}
+
+.home-info .social-icons svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Main content area - match header width */
 .main {
-    max-width: 800px;
-    padding: 2rem 1.5rem;
+    max-width: 1200px;
+    padding: 2rem 4rem;
 }
 
 /* Post entries - clean industrial cards */
@@ -273,8 +304,14 @@ a:hover {
 /* Header - minimal and functional */
 .nav {
     border-bottom: 2px solid var(--border);
-    background: var(--theme);
+    background: transparent;
     padding: 1rem 0;
+}
+
+/* Hide empty logo */
+.logo:empty,
+.logo a:empty {
+    display: none;
 }
 
 .logo a {
@@ -319,10 +356,13 @@ a:hover {
 }
 
 /* Footer - industrial detail */
-footer {
+footer.footer {
     border-top: 2px solid var(--border);
     margin-top: 4rem;
-    padding: 2rem 0;
+    padding: 2rem 4rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* About page specific */
@@ -358,14 +398,63 @@ footer {
     margin-bottom: 3rem;
 }
 
-.page-header h1 {
-    border-bottom: 3px solid var(--warm-rust);
+.page-header h1,
+.post-title {
+    border-bottom: 2px solid var(--warm-rust);
     padding-bottom: 1rem;
 }
 
 /* Post List Container */
 .post-list {
     margin-top: 3rem;
+}
+
+/* Section divider after home info */
+.home-info + .first-entry,
+.home-info + article {
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+}
+
+.pinned-section {
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--warm-rust);
+}
+
+.posts-section {
+    margin-top: 2rem;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+
+.pagination a {
+    font-weight: 500;
+    color: var(--steel-blue);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.pagination a:hover {
+    background: var(--warm-rust);
+    color: white;
+    border-color: var(--warm-rust);
+}
+
+.pagination .page-info {
+    color: var(--secondary);
+    font-size: 0.9rem;
 }
 
 /* Animations */
