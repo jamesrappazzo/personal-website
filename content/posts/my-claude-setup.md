@@ -16,10 +16,10 @@ My current Claude Code configuration—automatically kept in sync by a custom sk
 
 **Last Updated:** 2026-02-10
 
-**Browse my config files:** [jamesrappazzo/jamesrappazzo-claude-code-setup](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup)
-- [CLAUDE.md](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/CLAUDE.md) — My global instructions for Claude
-- [settings.json](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/settings.json) — Permissions for this repo
-- [claude-setup-blog skill](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
+**Browse my config files:**
+- [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) — My instructions for Claude
+- [settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) — Permissions for this repo
+- [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
 
 
 ## What is Claude Code?
@@ -33,7 +33,7 @@ I use it as my primary development assistant for everything from writing feature
 
 **What is CLAUDE.md?** A special file that Claude automatically pulls into context when starting a conversation. It's where you tell Claude about yourself, your preferences, and project-specific instructions. [Learn more →](https://docs.anthropic.com/en/docs/claude-code/memory)
 
-**My CLAUDE.md:** [View file →](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/CLAUDE.md)
+**My CLAUDE.md:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md)
 
 Key things I tell Claude:
 - I'm a TypeScript developer using React, Next.js, Tailwind, and Prisma
@@ -70,7 +70,7 @@ I have one custom skill:
 
 | Skill | What It Does |
 |-------|--------------|
-| [**claude-setup-blog**](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog) | Scans my Claude config and generates this blog post |
+| [**claude-setup-blog**](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | Scans my Claude config and generates this blog post |
 
 The skill is self-improving: each time it runs, it updates itself with new knowledge from documentation.
 
@@ -170,7 +170,7 @@ These live in `~/.claude/settings.local.json` (not checked into repos):
 
 ### Project Permissions
 
-**My settings:** [View file →](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/settings.json)
+**My settings:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json)
 
 Project permissions in `.claude/settings.json` are checked into the repo. I keep a curated allow list and an explicit deny list:
 
@@ -189,7 +189,7 @@ Project permissions in `.claude/settings.json` are checked into the repo. I keep
 
 ### Permissions Audit
 
-My [scanner script](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/skills/claude-setup-blog/scripts/scan_claude_config.py) includes a permissions audit that checks for risky patterns:
+My [scanner script](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/skills/claude-setup-blog/scripts/scan_claude_config.py) includes a permissions audit that checks for risky patterns:
 
 ```bash
 python scripts/scan_claude_config.py --audit
@@ -309,11 +309,11 @@ Add more allows as you need them—Claude will prompt you. Run `python scripts/s
 
 ### Step 6: Get the claude-setup-blog Skill
 
-Clone my config repo to get the custom skill:
+Clone my website repo to get the custom skill:
 
 ```bash
-git clone https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup.git
-cd jamesrappazzo-claude-code-setup
+git clone https://github.com/jamesrappazzo/personal-website.git
+cd personal-website
 # The skill is at .claude/skills/claude-setup-blog/
 ```
 
@@ -405,14 +405,14 @@ Commits, pushes, and opens a PR in one command.
 
 | File | Description |
 |------|-------------|
-| [CLAUDE.md](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/CLAUDE.md) | My global Claude instructions |
-| [.claude/settings.json](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/settings.json) | Project permissions (allow/deny) |
-| [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
+| [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) | My Claude instructions |
+| [.claude/settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) | Project permissions (allow/deny) |
+| [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
 
 
 ## Resources
 
-- [My Config Files](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup) — Public repo with all my Claude config
+- [My Website Repo](https://github.com/jamesrappazzo/personal-website) — Source for this site, includes all my Claude config
 - [Claude Code Overview](https://code.claude.com/docs/en/overview)
 - [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 - [Plugins Documentation](https://code.claude.com/docs/en/plugins)
@@ -425,4 +425,4 @@ Commits, pushes, and opens a PR in one command.
 - [Official Plugins Repo](https://github.com/anthropics/claude-plugins-official)
 - [Document Skills (xlsx, docx, pdf, pptx)](https://github.com/anthropics/skills)
 
-*This post is automatically generated using my [claude-setup-blog skill](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog). The skill scans my configuration, syncs it to the [public config repo](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup), and regenerates this content.*
+*This post is automatically generated using my [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog). The skill scans my configuration and regenerates this content.*

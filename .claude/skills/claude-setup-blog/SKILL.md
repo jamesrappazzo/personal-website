@@ -28,21 +28,12 @@ The blog post includes:
 
 ## Repository Configuration
 
-This skill manages two repositories:
+Everything lives in the **personal-website** repository (public):
+- Blog post: `content/posts/my-claude-setup.md`
+- Config files: `.claude/settings.json`, `.claude/CLAUDE.md`
+- This skill: `.claude/skills/claude-setup-blog/`
 
-1. **personal-website** (private) - Contains the blog post
-   - Blog post location: `content/posts/my-claude-setup.md`
-   - Purpose: Display configuration documentation on your blog
-
-2. **jamesrappazzo-claude-code-setup** (public) - Contains Claude config files
-   - Location: `~/code/jamesrappazzo-claude-code-setup` (or set `CLAUDE_CONFIG_PUBLIC_REPO` env var)
-   - Files synced:
-     - `~/.claude/CLAUDE.md` → `CLAUDE.md`
-     - `.claude/settings.json` → `.claude/settings.json`
-     - `.claude/skills/claude-setup-blog/` → `.claude/skills/claude-setup-blog/`
-   - Purpose: Public reference for others to browse and copy
-
-**All links in the blog post point to the public repository** so readers can access your config files even though your personal-website is private.
+All links in the blog post point directly to files in this repo.
 
 ## Workflow
 
@@ -136,28 +127,9 @@ Using the scan results, generate the blog post content by:
 
 3. Write to `content/posts/my-claude-setup.md` in the Hugo site
 
-### Step 3: Sync to Public Repository
+### Step 3: Create or Update Pull Request
 
-Sync the Claude configuration files to the public reference repository:
-
-```bash
-python scripts/sync_public_repo.py
-```
-
-This copies:
-- Your global `~/.claude/CLAUDE.md` to the repo root
-- Project `.claude/settings.json` to `.claude/settings.json`
-- The entire skill directory to `.claude/skills/claude-setup-blog/`
-
-**If the public repo doesn't exist:** The sync will be skipped and a warning logged. You can set `CLAUDE_CONFIG_PUBLIC_REPO` environment variable to specify a custom location.
-
-### Step 4: Create or Update Pull Requests
-
-Create PRs in both repositories. Handle each repo separately.
-
-#### 4a. Personal Website PR (Blog Post)
-
-**First, check for existing PR in personal-website:**
+**First, check for existing PR:**
 ```bash
 gh pr list --search "claude setup" --state open --json number,headRefName,title
 ```
@@ -183,42 +155,9 @@ gh pr list --search "claude setup" --state open --json number,headRefName,title
 3. Push the branch
 4. Create a PR using `gh pr create`
 
-#### 4b. Public Config Repo PR
+**Important:** Never have more than one open PR. Always reuse existing PRs if one exists.
 
-**Navigate to the public repo and check for existing PR:**
-```bash
-cd ~/code/jamesrappazzo-claude-code-setup
-gh pr list --search "sync claude config" --state open --json number,headRefName,title
-```
-
-**If an existing PR exists:**
-1. Check out the existing branch
-2. The sync script already updated the files
-3. Commit and push
-
-**If no existing PR:**
-1. Create a new git branch: `sync-claude-config-{timestamp}`
-2. Add all changed files: `git add -A`
-3. Commit with message:
-   ```
-   docs: sync Claude configuration files
-
-   Synced from personal-website repo.
-
-   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-   ```
-4. Push the branch
-5. Create a PR using `gh pr create`
-
-#### Cross-Reference PRs
-
-Include links to the related PR in each PR description:
-- Personal website PR: "**Related:** jamesrappazzo/jamesrappazzo-claude-code-setup#N"
-- Public config PR: "**Related:** jamesrappazzo/personal-website#M"
-
-**Important:** Never have more than one open PR per repository. Always reuse existing PRs if they exist.
-
-### Step 5: Self-Improve the Skill
+### Step 4: Self-Improve the Skill
 
 After generating the blog post, review what you learned during the process and update this skill if needed.
 
