@@ -12,16 +12,28 @@ Automatically scans your Claude Code configuration and generates/updates a blog 
 This skill helps you maintain an evergreen blog post about your Claude Code setup by:
 
 1. Scanning your Claude configuration files (settings, MCP servers, skills, hooks)
-2. Generating or updating a blog post in your Hugo website
-3. Creating a pull request with the changes
+2. Auditing permissions for security vulnerabilities
+3. Syncing config files to the public reference repository
+4. Generating or updating a blog post in your Hugo website
+5. Creating pull requests in both repositories
 
 The blog post includes:
 - Your configuration settings
 - Enabled plugins and skills
 - MCP server configurations
 - Hooks and automations
+- Permissions security audit results
 - Instructions for others to replicate your setup
 - A changelog tracking all updates with PR links
+
+## Repository Configuration
+
+Everything lives in the **personal-website** repository (public):
+- Blog post: `content/posts/my-claude-setup.md`
+- Config files: `.claude/settings.json`, `.claude/CLAUDE.md`
+- This skill: `.claude/skills/claude-setup-blog/`
+
+All links in the blog post point directly to files in this repo.
 
 ## Workflow
 
@@ -59,6 +71,43 @@ This generates a JSON report containing:
 - Claude hooks and git hooks
 - Project-specific settings from `.claude/settings.local.json`
 
+### Step 1b: Audit Permissions
+
+Run the permissions audit to check for security issues:
+
+```bash
+python scripts/scan_claude_config.py --audit
+```
+
+This checks all permission sources (global and project settings) for:
+- **Risky allow rules** flagged by severity (critical/high/medium)
+- **Empty deny lists** in project settings (no guardrails)
+- **Conflicts** where project allow rules contradict global deny rules
+
+The audit results are also included in the full scan report under the `permissions_audit` key.
+
+**If critical or high findings exist:**
+1. Flag them to the user before generating the blog post
+2. Recommend fixes (remove dangerous allows, add deny rules)
+3. If the user approves fixes, update the settings files
+4. Re-run the audit to confirm the fixes worked
+
+**Common risky patterns detected:**
+
+| Severity | Pattern | Risk |
+|----------|---------|------|
+| Critical | `Bash(python:*)` | Arbitrary code execution |
+| Critical | `Bash(curl:*)` | Data exfiltration |
+| Critical | `Bash(gh auth:*)` | Authentication hijacking |
+| Critical | `Bash(git filter-branch:*)` | Destructive history rewriting |
+| Critical | `Bash(git reset:*)` | Can destroy uncommitted work |
+| High | `Bash(gh api:*)` | Unrestricted GitHub API access |
+| High | `Bash(git config:*)` | Can set malicious hooks paths |
+| High | `Bash(git remote set-url:*)` | Can redirect pushes |
+| High | (empty deny list) | No safety guardrails |
+
+**How permissions accumulate:** Project `settings.json` grows over time as users approve Claude's permission prompts during sessions. It's easy to approve something risky in the moment when you're focused on the task, not thinking about the permanent permission being granted. Over time, dangerous permissions like `python:*` and `curl:*` accumulate. The audit catches this drift.
+
 ### Step 2: Generate Blog Content
 
 Using the scan results, generate the blog post content by:
@@ -79,8 +128,6 @@ Using the scan results, generate the blog post content by:
 3. Write to `content/posts/my-claude-setup.md` in the Hugo site
 
 ### Step 3: Create or Update Pull Request
-
-After updating the blog post, check for an existing open PR before creating a new one:
 
 **First, check for existing PR:**
 ```bash
@@ -106,9 +153,9 @@ gh pr list --search "claude setup" --state open --json number,headRefName,title
    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
    ```
 3. Push the branch
-4. Create a PR using `gh pr create` with description explaining what changed
+4. Create a PR using `gh pr create`
 
-**Important:** Never have more than one open PR for the Claude setup blog at a time. Always reuse an existing PR if one is open.
+**Important:** Never have more than one open PR. Always reuse existing PRs if one exists.
 
 ### Step 4: Self-Improve the Skill
 
@@ -431,22 +478,29 @@ The changelog follows a **release notes style** similar to software projects. Ea
 
 ## Documentation Links
 
-When generating the blog post, include these links (verified January 2026):
+When generating the blog post, include these links (verified February 2026):
 
 **Core Documentation:**
 - Claude Code overview: `https://code.claude.com/docs/en/overview`
 - Claude Code best practices: `https://www.anthropic.com/engineering/claude-code-best-practices`
-- CLAUDE.md guide: `https://docs.anthropic.com/en/docs/claude-code/memory`
+- CLAUDE.md / Memory guide: `https://code.claude.com/docs/en/memory`
+- Extend Claude Code (features overview): `https://code.claude.com/docs/en/features-overview`
 
 **Feature-Specific:**
 - Plugins: `https://code.claude.com/docs/en/plugins`
+- Plugins reference (technical): `https://code.claude.com/docs/en/plugins-reference`
+- Plugin marketplaces: `https://code.claude.com/docs/en/plugin-marketplaces`
 - Skills: `https://code.claude.com/docs/en/skills`
+- Subagents: `https://code.claude.com/docs/en/sub-agents`
+- Agent teams: `https://code.claude.com/docs/en/agent-teams`
 - Settings & Permissions: `https://code.claude.com/docs/en/settings`
 - MCP servers: `https://code.claude.com/docs/en/mcp`
-- Hooks: `https://code.claude.com/docs/en/hooks-guide`
+- Hooks guide (practical): `https://code.claude.com/docs/en/hooks-guide`
+- Hooks reference (technical): `https://code.claude.com/docs/en/hooks`
 
 **External Resources:**
 - Model Context Protocol: `https://modelcontextprotocol.io/`
+- Full docs index: `https://code.claude.com/docs/llms.txt`
 
 **Plugin Sources (GitHub repos):**
 - Official plugins: `https://github.com/anthropics/claude-plugins-official`
@@ -471,9 +525,16 @@ Python script that scans Claude configuration and outputs JSON. Functions:
 - `scan_skills()` - List installed skills
 - `scan_hooks()` - Find Claude and git hooks
 - `scan_project_settings()` - Read project-specific settings
-- `generate_config_report()` - Combine all scans into one report
+- `audit_permissions()` - Check all permission sources for security risks
+- `generate_config_report()` - Combine all scans into one report (includes audit)
 
 Can be run standalone or imported as a module.
+
+**CLI flags:**
+- `--audit` - Run permissions audit only (human-readable output)
+- `--dry-run` - Show sanitization config + full report preview
+- `--show-config` - Show sanitization configuration
+- (no flags) - Generate full JSON report
 
 ### assets/blog_template.md
 

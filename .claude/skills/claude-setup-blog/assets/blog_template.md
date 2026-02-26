@@ -7,6 +7,7 @@ categories: ["Development"]
 description: "My Claude Code configuration, plugins, and workflows"
 ShowToc: true
 TocOpen: true
+pinned: true
 ---
 
 ## Overview
@@ -15,9 +16,14 @@ My current Claude Code configuration—automatically kept in sync by a custom sk
 
 **Last Updated:** {DATE}
 
+**Browse my config files:**
+- [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) — My instructions for Claude
+- [.claude/settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) — Permissions configuration
+- [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
+
 ## What is Claude Code?
 
-Claude Code is Anthropic's official CLI tool that brings Claude AI into your terminal and development workflow. It provides an interactive agent that can read, write, and execute code with full context of your project.
+Claude Code is Anthropic's official CLI tool that brings Claude AI into your terminal and development workflow. It provides an interactive agent that can read, write, and execute code with full context of your project. [Learn more →](https://code.claude.com/docs/en/overview)
 
 ## My Configuration
 
@@ -71,12 +77,22 @@ claude auth
 
 {RATIONALE}
 
+## Files in This Setup
+
+| File | Description |
+|------|-------------|
+| [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) | My Claude instructions |
+| [.claude/settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) | Permissions configuration |
+| [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
+
 ## Resources
 
-- [Claude Code Documentation](https://code.claude.com/docs)
-- [Claude API Documentation](https://docs.anthropic.com/)
+- [Claude Code Documentation](https://code.claude.com/docs/en/overview)
+- [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
+- [CLAUDE.md Guide](https://docs.anthropic.com/en/docs/claude-code/memory)
 - [MCP (Model Context Protocol)](https://modelcontextprotocol.io/)
+- [My Website Repo](https://github.com/jamesrappazzo/personal-website)
 
 ---
 
-*This post is automatically generated and updated using my custom `/update-claude-setup` skill. The skill scans my configuration and regenerates this content to keep it current.*
+*This post is automatically generated using my [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog). The skill scans my configuration and regenerates this content.*
