@@ -31,14 +31,18 @@ I use it as my primary development assistant for everything from writing feature
 
 ## CLAUDE.md
 
-**What is CLAUDE.md?** A special file that Claude automatically pulls into context when starting a conversation. It's where you tell Claude about yourself, your preferences, and project-specific instructions. [Learn more →](https://docs.anthropic.com/en/docs/claude-code/memory)
+**What is CLAUDE.md?** A special file that Claude automatically pulls into context when starting a conversation. It's where you tell Claude about yourself, your preferences, and project-specific instructions. Claude reads CLAUDE.md files at multiple levels — global (`~/.claude/CLAUDE.md`) for personal preferences and project-level (`.claude/CLAUDE.md`) for repo-specific context. [Learn more →](https://code.claude.com/docs/en/memory)
 
-**My CLAUDE.md:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md)
+### Global CLAUDE.md
 
-Key things I tell Claude:
+My global `~/.claude/CLAUDE.md` tells Claude who I am across all projects:
 - I'm a TypeScript developer using React, Next.js, Tailwind, and Prisma
 - My git workflow: feature branch → `/feature-dev` → rebase → squash → PR → `/code-review`
 - Match existing code style, explain tradeoffs, prefer practical over over-engineered
+
+### Project CLAUDE.md
+
+Each repo gets its own CLAUDE.md with project-specific context. For example, [this repo's CLAUDE.md →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) includes Hugo build commands, the site architecture, and custom skill references.
 
 
 ## Plugins
@@ -277,7 +281,7 @@ Then enable plugins via `/plugin` menu, or add to `~/.claude/settings.json`:
 
 ### Step 4: Create Your CLAUDE.md
 
-Create `~/.claude/CLAUDE.md` with your preferences. [See mine for inspiration →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md)
+Create a global `~/.claude/CLAUDE.md` with your personal preferences (tech stack, workflow, communication style). Then use `/init` inside any project to generate a project-specific CLAUDE.md with build commands and architecture context. [Learn more →](https://code.claude.com/docs/en/memory)
 
 ### Step 5: Configure Global Permissions
 
@@ -429,7 +433,7 @@ Commits, pushes, and opens a PR in one command.
 
 | File | Description |
 |------|-------------|
-| [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) | My Claude instructions |
+| [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) | Project-level Claude instructions (Hugo commands, site architecture) |
 | [.claude/settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) | Project permissions (allow/deny) |
 | [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
 
