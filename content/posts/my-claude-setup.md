@@ -1,6 +1,6 @@
 ---
 title: "My Claude Code Setup"
-date: 2026-01-11
+date: 2026-02-10
 draft: false
 tags: ["claude", "AI", "development", "tooling"]
 categories: ["Development"]
@@ -14,12 +14,12 @@ pinned: true
 
 My current Claude Code configuration—automatically kept in sync by a custom skill.
 
-**Last Updated:** 2026-01-11
+**Last Updated:** 2026-02-10
 
-**Browse my config files:**
-- [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) — My global instructions for Claude
-- [Project settings](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) — Permissions for this repo
-- [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
+**Browse my config files:** [jamesrappazzo/jamesrappazzo-claude-code-setup](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup)
+- [CLAUDE.md](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/CLAUDE.md) — My global instructions for Claude
+- [settings.json](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/settings.json) — Permissions for this repo
+- [claude-setup-blog skill](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog) — The skill that generates this post
 
 
 ## What is Claude Code?
@@ -33,7 +33,7 @@ I use it as my primary development assistant for everything from writing feature
 
 **What is CLAUDE.md?** A special file that Claude automatically pulls into context when starting a conversation. It's where you tell Claude about yourself, your preferences, and project-specific instructions. [Learn more →](https://docs.anthropic.com/en/docs/claude-code/memory)
 
-**My CLAUDE.md:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md)
+**My CLAUDE.md:** [View file →](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/CLAUDE.md)
 
 Key things I tell Claude:
 - I'm a TypeScript developer using React, Next.js, Tailwind, and Prisma
@@ -59,6 +59,7 @@ I have the following plugins enabled:
 | [**commit-commands**](https://github.com/anthropics/claude-plugins-official) | Git workflow automation (`/commit`, `/commit-push-pr`) |
 | [**agent-sdk-dev**](https://github.com/anthropics/claude-plugins-official) | Building Claude Agent SDK applications |
 | [**stripe**](https://github.com/anthropics/claude-plugins-official) | Stripe integration utilities |
+| [**vercel**](https://github.com/anthropics/claude-plugins-official) | Vercel deployment and project management |
 
 
 ## Skills
@@ -69,7 +70,7 @@ I have one custom skill:
 
 | Skill | What It Does |
 |-------|--------------|
-| [**claude-setup-blog**](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | Scans my Claude config and generates this blog post |
+| [**claude-setup-blog**](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog) | Scans my Claude config and generates this blog post |
 
 The skill is self-improving: each time it runs, it updates itself with new knowledge from documentation.
 
@@ -78,40 +79,126 @@ The skill is self-improving: each time it runs, it updates itself with new knowl
 
 **What are permissions?** Claude Code uses an allow/deny/ask system to control what actions it can take. Rules are checked in order: deny rules block regardless of other rules, allow rules permit if matched, and ask rules prompt for approval. [Learn more →](https://code.claude.com/docs/en/settings)
 
+**A note on permission drift:** Project `settings.json` grows over time as you approve Claude's permission prompts. These approvals are auto-appended without review, which is how dangerous permissions like `python:*` and `curl:*` can end up in your allow list. I built a [permissions audit](#permissions-audit) into my scanner to catch this.
+
 ### Global Permissions
 
-Save this to `~/.claude/settings.json`:
+These live in `~/.claude/settings.local.json` (not checked into repos):
 
 ```json
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:code.claude.com)"
+      "WebSearch",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Skill(frontend-design)",
+      "Skill(document-skills:skill-creator)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git diff:*)",
+      "Bash(git fetch:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git stash:*)",
+      "Bash(git restore:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git rebase:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh run:*)",
+      "Bash(gh workflow run:*)",
+      "Bash(gh api:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx prisma db push:*)"
     ],
     "deny": [
       "Bash(gh auth:*)",
       "Bash(gh ssh-key:*)",
-      "Bash(ssh-keygen:*)"
-    ],
-    "ask": []
+      "Bash(ssh-keygen:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(nc:*)",
+      "Bash(netcat:*)",
+      "Bash(git filter-branch:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(chmod 777:*)",
+      "Bash(pkill:*)",
+      "Bash(kill -9:*)",
+      "Bash(killall:*)",
+      "Bash(eval:*)",
+      "Bash(exec:*)",
+      "Bash(bash -c:*)",
+      "Bash(sh -c:*)",
+      "Bash(zsh -c:*)",
+      "Bash(open:*)",
+      "Bash(osascript:*)",
+      "Bash(docker run:*)",
+      "Bash(docker exec:*)",
+      "Bash(kubectl:*)",
+      "Bash(aws:*)",
+      "Bash(gcloud:*)",
+      "Bash(scp:*)",
+      "Bash(rsync:*)",
+      "Bash(ssh:*)"
+    ]
   }
 }
 ```
 
 **Why these settings?**
-- **Allow** web fetches to Claude docs for reference
-- **Deny** authentication commands—I don't want Claude changing my GitHub credentials
+- **Allow** web access to documentation domains, full git workflow, GitHub CLI for PRs, and TypeScript/Prisma tooling
+- **Deny** arbitrary code execution (`python`, `curl`, `eval`, `bash -c`), authentication changes, destructive git ops (`--force`, `--hard`, `filter-branch`), process management, and cloud/infra tools
 
 ### Project Permissions
 
-**My project settings:** [View file →](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json)
+**My settings:** [View file →](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/settings.json)
+
+Project permissions in `.claude/settings.json` are checked into the repo. I keep a curated allow list and an explicit deny list:
 
 **What this enables:**
-- Full git workflow (commit, push, pull, rebase)
-- GitHub CLI for PRs and API access
-- Hugo development server
-- Python scripts for automation
-- Web searches for documentation
+- Hugo development server and build commands
+- Standard git workflow (commit, push, pull, rebase)
+- GitHub CLI for PRs and workflow management
+- Web searches and documentation fetches
+
+**What this denies:**
+- Arbitrary HTTP requests (`curl`, `wget`)
+- Authentication changes (`gh auth`, `gh ssh-key`)
+- Destructive git operations (`filter-branch`, `reset --hard`, `push --force`)
+- Git config and remote modification
+- Shell execution (`eval`, `exec`, `bash -c`, `ssh`)
+
+### Permissions Audit
+
+My [scanner script](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/skills/claude-setup-blog/scripts/scan_claude_config.py) includes a permissions audit that checks for risky patterns:
+
+```bash
+python scripts/scan_claude_config.py --audit
+```
+
+It flags issues by severity (critical/high/medium) and catches:
+- Dangerous commands in allow lists (arbitrary execution, data exfiltration)
+- Empty deny lists (no guardrails)
+- Conflicts between project allows and global denies
 
 
 ## MCP Servers
@@ -167,7 +254,8 @@ Then enable plugins via `/plugin` menu, or add to `~/.claude/settings.json`:
     "security-guidance@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "agent-sdk-dev@claude-plugins-official": true,
-    "stripe@claude-plugins-official": true
+    "stripe@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true
   }
 }
 ```
@@ -178,33 +266,54 @@ Create `~/.claude/CLAUDE.md` with your preferences. [See mine for inspiration �
 
 ### Step 5: Configure Global Permissions
 
-Create `~/.claude/settings.json`:
+Create `~/.claude/settings.local.json` with your personal security boundaries. Here's a minimal starting point:
 
 ```bash
-cat > ~/.claude/settings.json << 'EOF'
+cat > ~/.claude/settings.local.json << 'EOF'
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:code.claude.com)"
+      "WebSearch",
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr view:*)"
     ],
     "deny": [
       "Bash(gh auth:*)",
       "Bash(gh ssh-key:*)",
-      "Bash(ssh-keygen:*)"
-    ],
-    "ask": []
+      "Bash(ssh-keygen:*)",
+      "Bash(curl:*)",
+      "Bash(python:*)",
+      "Bash(eval:*)",
+      "Bash(bash -c:*)",
+      "Bash(sudo:*)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ]
   }
 }
 EOF
 ```
 
+Add more allows as you need them—Claude will prompt you. Run `python scripts/scan_claude_config.py --audit` periodically to catch permission drift.
+
 ### Step 6: Get the claude-setup-blog Skill
 
-Clone this repo to get my custom skill:
+Clone my config repo to get the custom skill:
 
 ```bash
-git clone https://github.com/jamesrappazzo/personal-website.git
-cd personal-website
+git clone https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup.git
+cd jamesrappazzo-claude-code-setup
 # The skill is at .claude/skills/claude-setup-blog/
 ```
 
@@ -242,12 +351,28 @@ Commits, pushes, and opens a PR in one command.
 
 **Plugins:** I enable plugins for workflows I use regularly. Document creation, code review, and git automation save me significant time.
 
-**Permissions:** I use an allow-list approach—explicitly permit operations I need, deny sensitive auth commands. This keeps Claude productive while maintaining security boundaries.
+**Permissions:** I use layered allow/deny lists—globally deny dangerous commands (arbitrary execution, auth changes, destructive git ops), then allow specific safe operations at the project level. I audit regularly because permissions drift over time as you approve prompts.
 
 **Skills:** I build custom skills for repeated workflows. The claude-setup-blog skill keeps this documentation in sync automatically.
 
 
 ## Changelog
+
+### 2026-02-10
+
+**Added**
+- Vercel plugin for deployment management
+- Permissions audit tool (`--audit` flag in scanner script)
+- Full global allow/deny permissions config (previously only showed a minimal subset)
+- "Permission drift" explanation and audit section
+
+**Changed**
+- Cleaned up project `settings.json`: removed dangerous allows (`python`, `curl`, `gh auth`, `git filter-branch`, `git reset`), added explicit deny list
+- Replication guide now uses `settings.local.json` (personal permissions) instead of `settings.json` (shared plugins)
+- Updated global permissions step with a practical starter config and audit tip
+
+**Fixed**
+- Project permissions previously had an empty deny list with no guardrails
 
 ### 2026-01-11
 
@@ -276,17 +401,18 @@ Commits, pushes, and opens a PR in one command.
 - claude-setup-blog skill for auto-generating this post
 
 
-## Files in This Repo
+## Config Files
 
 | File | Description |
 |------|-------------|
-| [.claude/CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) | My global Claude instructions |
-| [.claude/settings.json](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/settings.json) | Project permissions |
-| [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
+| [CLAUDE.md](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/CLAUDE.md) | My global Claude instructions |
+| [.claude/settings.json](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/blob/main/.claude/settings.json) | Project permissions (allow/deny) |
+| [.claude/skills/claude-setup-blog/](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog) | The skill that generates this post |
 
 
 ## Resources
 
+- [My Config Files](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup) — Public repo with all my Claude config
 - [Claude Code Overview](https://code.claude.com/docs/en/overview)
 - [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 - [Plugins Documentation](https://code.claude.com/docs/en/plugins)
@@ -299,4 +425,4 @@ Commits, pushes, and opens a PR in one command.
 - [Official Plugins Repo](https://github.com/anthropics/claude-plugins-official)
 - [Document Skills (xlsx, docx, pdf, pptx)](https://github.com/anthropics/skills)
 
-*This post is automatically generated using my [claude-setup-blog skill](https://github.com/jamesrappazzo/personal-website/tree/main/.claude/skills/claude-setup-blog). The skill scans my configuration, researches current documentation, and regenerates this content.*
+*This post is automatically generated using my [claude-setup-blog skill](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup/tree/main/.claude/skills/claude-setup-blog). The skill scans my configuration, syncs it to the [public config repo](https://github.com/jamesrappazzo/jamesrappazzo-claude-code-setup), and regenerates this content.*

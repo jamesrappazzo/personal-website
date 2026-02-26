@@ -12,16 +12,37 @@ Automatically scans your Claude Code configuration and generates/updates a blog 
 This skill helps you maintain an evergreen blog post about your Claude Code setup by:
 
 1. Scanning your Claude configuration files (settings, MCP servers, skills, hooks)
-2. Generating or updating a blog post in your Hugo website
-3. Creating a pull request with the changes
+2. Auditing permissions for security vulnerabilities
+3. Syncing config files to the public reference repository
+4. Generating or updating a blog post in your Hugo website
+5. Creating pull requests in both repositories
 
 The blog post includes:
 - Your configuration settings
 - Enabled plugins and skills
 - MCP server configurations
 - Hooks and automations
+- Permissions security audit results
 - Instructions for others to replicate your setup
 - A changelog tracking all updates with PR links
+
+## Repository Configuration
+
+This skill manages two repositories:
+
+1. **personal-website** (private) - Contains the blog post
+   - Blog post location: `content/posts/my-claude-setup.md`
+   - Purpose: Display configuration documentation on your blog
+
+2. **jamesrappazzo-claude-code-setup** (public) - Contains Claude config files
+   - Location: `~/code/jamesrappazzo-claude-code-setup` (or set `CLAUDE_CONFIG_PUBLIC_REPO` env var)
+   - Files synced:
+     - `~/.claude/CLAUDE.md` → `CLAUDE.md`
+     - `.claude/settings.json` → `.claude/settings.json`
+     - `.claude/skills/claude-setup-blog/` → `.claude/skills/claude-setup-blog/`
+   - Purpose: Public reference for others to browse and copy
+
+**All links in the blog post point to the public repository** so readers can access your config files even though your personal-website is private.
 
 ## Workflow
 
@@ -59,6 +80,43 @@ This generates a JSON report containing:
 - Claude hooks and git hooks
 - Project-specific settings from `.claude/settings.local.json`
 
+### Step 1b: Audit Permissions
+
+Run the permissions audit to check for security issues:
+
+```bash
+python scripts/scan_claude_config.py --audit
+```
+
+This checks all permission sources (global and project settings) for:
+- **Risky allow rules** flagged by severity (critical/high/medium)
+- **Empty deny lists** in project settings (no guardrails)
+- **Conflicts** where project allow rules contradict global deny rules
+
+The audit results are also included in the full scan report under the `permissions_audit` key.
+
+**If critical or high findings exist:**
+1. Flag them to the user before generating the blog post
+2. Recommend fixes (remove dangerous allows, add deny rules)
+3. If the user approves fixes, update the settings files
+4. Re-run the audit to confirm the fixes worked
+
+**Common risky patterns detected:**
+
+| Severity | Pattern | Risk |
+|----------|---------|------|
+| Critical | `Bash(python:*)` | Arbitrary code execution |
+| Critical | `Bash(curl:*)` | Data exfiltration |
+| Critical | `Bash(gh auth:*)` | Authentication hijacking |
+| Critical | `Bash(git filter-branch:*)` | Destructive history rewriting |
+| Critical | `Bash(git reset:*)` | Can destroy uncommitted work |
+| High | `Bash(gh api:*)` | Unrestricted GitHub API access |
+| High | `Bash(git config:*)` | Can set malicious hooks paths |
+| High | `Bash(git remote set-url:*)` | Can redirect pushes |
+| High | (empty deny list) | No safety guardrails |
+
+**How permissions accumulate:** Project `settings.json` grows over time as users approve Claude's permission prompts during sessions. These approvals are auto-appended without review, which is how dangerous permissions like `python:*` and `curl:*` end up in the allow list. The audit catches this drift.
+
 ### Step 2: Generate Blog Content
 
 Using the scan results, generate the blog post content by:
@@ -78,11 +136,28 @@ Using the scan results, generate the blog post content by:
 
 3. Write to `content/posts/my-claude-setup.md` in the Hugo site
 
-### Step 3: Create or Update Pull Request
+### Step 3: Sync to Public Repository
 
-After updating the blog post, check for an existing open PR before creating a new one:
+Sync the Claude configuration files to the public reference repository:
 
-**First, check for existing PR:**
+```bash
+python scripts/sync_public_repo.py
+```
+
+This copies:
+- Your global `~/.claude/CLAUDE.md` to the repo root
+- Project `.claude/settings.json` to `.claude/settings.json`
+- The entire skill directory to `.claude/skills/claude-setup-blog/`
+
+**If the public repo doesn't exist:** The sync will be skipped and a warning logged. You can set `CLAUDE_CONFIG_PUBLIC_REPO` environment variable to specify a custom location.
+
+### Step 4: Create or Update Pull Requests
+
+Create PRs in both repositories. Handle each repo separately.
+
+#### 4a. Personal Website PR (Blog Post)
+
+**First, check for existing PR in personal-website:**
 ```bash
 gh pr list --search "claude setup" --state open --json number,headRefName,title
 ```
@@ -106,11 +181,44 @@ gh pr list --search "claude setup" --state open --json number,headRefName,title
    Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
    ```
 3. Push the branch
-4. Create a PR using `gh pr create` with description explaining what changed
+4. Create a PR using `gh pr create`
 
-**Important:** Never have more than one open PR for the Claude setup blog at a time. Always reuse an existing PR if one is open.
+#### 4b. Public Config Repo PR
 
-### Step 4: Self-Improve the Skill
+**Navigate to the public repo and check for existing PR:**
+```bash
+cd ~/code/jamesrappazzo-claude-code-setup
+gh pr list --search "sync claude config" --state open --json number,headRefName,title
+```
+
+**If an existing PR exists:**
+1. Check out the existing branch
+2. The sync script already updated the files
+3. Commit and push
+
+**If no existing PR:**
+1. Create a new git branch: `sync-claude-config-{timestamp}`
+2. Add all changed files: `git add -A`
+3. Commit with message:
+   ```
+   docs: sync Claude configuration files
+
+   Synced from personal-website repo.
+
+   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
+   ```
+4. Push the branch
+5. Create a PR using `gh pr create`
+
+#### Cross-Reference PRs
+
+Include links to the related PR in each PR description:
+- Personal website PR: "**Related:** jamesrappazzo/jamesrappazzo-claude-code-setup#N"
+- Public config PR: "**Related:** jamesrappazzo/personal-website#M"
+
+**Important:** Never have more than one open PR per repository. Always reuse existing PRs if they exist.
+
+### Step 5: Self-Improve the Skill
 
 After generating the blog post, review what you learned during the process and update this skill if needed.
 
@@ -471,9 +579,16 @@ Python script that scans Claude configuration and outputs JSON. Functions:
 - `scan_skills()` - List installed skills
 - `scan_hooks()` - Find Claude and git hooks
 - `scan_project_settings()` - Read project-specific settings
-- `generate_config_report()` - Combine all scans into one report
+- `audit_permissions()` - Check all permission sources for security risks
+- `generate_config_report()` - Combine all scans into one report (includes audit)
 
 Can be run standalone or imported as a module.
+
+**CLI flags:**
+- `--audit` - Run permissions audit only (human-readable output)
+- `--dry-run` - Show sanitization config + full report preview
+- `--show-config` - Show sanitization configuration
+- (no flags) - Generate full JSON report
 
 ### assets/blog_template.md
 

@@ -258,6 +258,145 @@ def scan_project_settings(project_path: Path = None) -> Dict[str, Any]:
     return settings
 
 
+def audit_permissions() -> Dict[str, Any]:
+    """Audit all permission sources for security risks.
+
+    Checks global and project settings for overly permissive rules,
+    flags risky patterns by severity, and detects conflicts.
+    """
+    risky_patterns = {
+        "critical": [
+            (r"Bash\(python3?:", "Arbitrary Python execution"),
+            (r"Bash\(curl:", "Unrestricted HTTP requests — can exfiltrate data"),
+            (r"Bash\(wget:", "Unrestricted downloads"),
+            (r"Bash\(gh auth:", "Can modify GitHub authentication"),
+            (r"Bash\(git filter-branch:", "Destructive history rewriting"),
+            (r"Bash\(git reset:", "Can include --hard, destroying uncommitted work"),
+            (r"Bash\(eval:", "Arbitrary command execution"),
+            (r"Bash\(exec:", "Arbitrary command execution"),
+            (r"Bash\(bash -c:", "Arbitrary shell execution"),
+            (r"Bash\(sh -c:", "Arbitrary shell execution"),
+            (r"Bash\(zsh -c:", "Arbitrary shell execution"),
+            (r"Bash\(sudo:", "Root privilege escalation"),
+            (r"Bash\(rm -rf:", "Recursive force deletion"),
+        ],
+        "high": [
+            (r"Bash\(gh api:", "Unrestricted GitHub API — can delete repos, access secrets"),
+            (r"Bash\(git config:", "Can set core.hooksPath or credential helpers"),
+            (r"Bash\(git remote set-url:", "Can redirect pushes to malicious remotes"),
+            (r"Bash\(ssh[^-]", "Remote shell access"),
+            (r"Bash\(scp:", "Remote file transfer"),
+            (r"Bash\(docker run:", "Container execution"),
+            (r"Bash\(docker exec:", "Container execution"),
+            (r"Bash\(kubectl:", "Kubernetes cluster access"),
+            (r"Bash\(aws:", "AWS cloud access"),
+            (r"Bash\(gcloud:", "GCP cloud access"),
+            (r"Bash\(nc:", "Raw network connections"),
+            (r"Bash\(netcat:", "Raw network connections"),
+            (r"Bash\(chmod 777:", "Removes file protections"),
+        ],
+        "medium": [
+            (r"Bash\(pkill:", "Process killing"),
+            (r"Bash\(kill:", "Process killing"),
+            (r"Bash\(killall:", "Process killing"),
+            (r"Bash\(open:", "Can open applications or URLs"),
+            (r"Bash\(osascript:", "macOS automation scripting"),
+            (r"Bash\(base64 -d:", "Decode obfuscated payloads"),
+        ],
+    }
+
+    findings: List[Dict[str, str]] = []
+
+    # Collect all permission sources
+    sources = {}
+
+    # Global settings
+    claude_dir = Path.home() / ".claude"
+    for filename in ["settings.json", "settings.local.json"]:
+        filepath = claude_dir / filename
+        if filepath.exists():
+            try:
+                with open(filepath) as f:
+                    data = json.load(f)
+                sources[f"global/{filename}"] = data.get("permissions", {})
+            except Exception:
+                pass
+
+    # Project settings
+    project_claude_dir = Path.cwd() / ".claude"
+    for filename in ["settings.json", "settings.local.json"]:
+        filepath = project_claude_dir / filename
+        if filepath.exists():
+            try:
+                with open(filepath) as f:
+                    data = json.load(f)
+                sources[f"project/{filename}"] = data.get("permissions", {})
+            except Exception:
+                pass
+
+    # Check each source's allow list against risky patterns
+    for source_name, perms in sources.items():
+        allow_list = perms.get("allow", [])
+        deny_list = perms.get("deny", [])
+
+        # Flag empty deny lists in project settings
+        if source_name.startswith("project/") and not deny_list:
+            findings.append({
+                "severity": "high",
+                "source": source_name,
+                "permission": "(empty deny list)",
+                "reason": "No deny rules — no guardrails at the project level",
+            })
+
+        # Check allow rules against risky patterns
+        for rule in allow_list:
+            for severity, patterns in risky_patterns.items():
+                for pattern, reason in patterns:
+                    if re.search(pattern, rule, re.IGNORECASE):
+                        findings.append({
+                            "severity": severity,
+                            "source": source_name,
+                            "permission": rule,
+                            "reason": reason,
+                        })
+
+    # Detect conflicts: project allow vs global deny
+    global_deny = []
+    for source_name, perms in sources.items():
+        if source_name.startswith("global/"):
+            global_deny.extend(perms.get("deny", []))
+
+    for source_name, perms in sources.items():
+        if source_name.startswith("project/"):
+            for rule in perms.get("allow", []):
+                for deny_rule in global_deny:
+                    # Check if the allow rule matches a denied pattern
+                    # e.g., allow "Bash(python:*)" vs deny "Bash(python:*)"
+                    deny_base = deny_rule.split(":")[0].rstrip(")")
+                    allow_base = rule.split(":")[0].rstrip(")")
+                    if deny_base == allow_base:
+                        findings.append({
+                            "severity": "high",
+                            "source": source_name,
+                            "permission": rule,
+                            "reason": f"Conflicts with global deny: {deny_rule}",
+                        })
+
+    # Sort by severity
+    severity_order = {"critical": 0, "high": 1, "medium": 2}
+    findings.sort(key=lambda f: severity_order.get(f["severity"], 99))
+
+    return {
+        "findings": findings,
+        "sources_checked": list(sources.keys()),
+        "total_findings": len(findings),
+        "by_severity": {
+            s: len([f for f in findings if f["severity"] == s])
+            for s in ["critical", "high", "medium"]
+        },
+    }
+
+
 def generate_config_report() -> Dict[str, Any]:
     """Generate complete configuration report (sanitized for public sharing)."""
     return {
@@ -266,7 +405,8 @@ def generate_config_report() -> Dict[str, Any]:
         "mcp_servers": scan_mcp_servers(),
         "installed_skills": scan_skills(),
         "hooks": scan_hooks(),
-        "project_settings": scan_project_settings()
+        "project_settings": scan_project_settings(),
+        "permissions_audit": audit_permissions(),
     }
 
 
@@ -293,7 +433,24 @@ def print_sanitization_config():
 if __name__ == "__main__":
     import sys
 
-    if "--show-config" in sys.argv:
+    if "--audit" in sys.argv:
+        # Run permissions audit only
+        audit = audit_permissions()
+        if audit["total_findings"] == 0:
+            print("No permission issues found.")
+        else:
+            print(f"Found {audit['total_findings']} issue(s):")
+            print(f"  Critical: {audit['by_severity']['critical']}")
+            print(f"  High:     {audit['by_severity']['high']}")
+            print(f"  Medium:   {audit['by_severity']['medium']}")
+            print()
+            for finding in audit["findings"]:
+                icon = {"critical": "!!!", "high": " !!", "medium": "  !"}[finding["severity"]]
+                print(f"[{icon}] {finding['severity'].upper()}: {finding['permission']}")
+                print(f"      Source: {finding['source']}")
+                print(f"      Risk:   {finding['reason']}")
+                print()
+    elif "--show-config" in sys.argv:
         # Show what will be filtered
         print_sanitization_config()
     elif "--dry-run" in sys.argv:
