@@ -1,6 +1,6 @@
 ---
 title: "My Claude Code Setup"
-date: 2026-02-10
+date: 2026-02-26
 draft: false
 tags: ["claude", "AI", "development", "tooling"]
 categories: ["Development"]
@@ -14,7 +14,7 @@ pinned: true
 
 My current Claude Code configuration—automatically kept in sync by a custom skill.
 
-**Last Updated:** 2026-02-10
+**Last Updated:** 2026-02-26
 
 **Browse my config files:**
 - [CLAUDE.md](https://github.com/jamesrappazzo/personal-website/blob/main/.claude/CLAUDE.md) — My instructions for Claude
@@ -60,6 +60,7 @@ I have the following plugins enabled:
 | [**agent-sdk-dev**](https://github.com/anthropics/claude-plugins-official) | Building Claude Agent SDK applications |
 | [**stripe**](https://github.com/anthropics/claude-plugins-official) | Stripe integration utilities |
 | [**vercel**](https://github.com/anthropics/claude-plugins-official) | Vercel deployment and project management |
+| [**claude-md-management**](https://github.com/anthropics/claude-plugins-official) | Auditing and improving CLAUDE.md files |
 
 
 ## Skills
@@ -139,6 +140,7 @@ These live in `~/.claude/settings.local.json` (not checked into repos):
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
       "Bash(rm -rf:*)",
+      "Bash(rm -r /:*)",
       "Bash(sudo:*)",
       "Bash(chmod 777:*)",
       "Bash(pkill:*)",
@@ -146,19 +148,31 @@ These live in `~/.claude/settings.local.json` (not checked into repos):
       "Bash(killall:*)",
       "Bash(eval:*)",
       "Bash(exec:*)",
+      "Bash(source:*)",
+      "Bash(. :*)",
       "Bash(bash -c:*)",
       "Bash(sh -c:*)",
       "Bash(zsh -c:*)",
+      "Bash(env:*)",
+      "Bash(export:*)",
       "Bash(open:*)",
       "Bash(osascript:*)",
+      "Bash(security:*)",
+      "Bash(keychain:*)",
+      "Bash(npx vercel:*)",
+      "Bash(vercel:*)",
       "Bash(docker run:*)",
       "Bash(docker exec:*)",
+      "Bash(docker-compose:*)",
       "Bash(kubectl:*)",
       "Bash(aws:*)",
       "Bash(gcloud:*)",
+      "Bash(az:*)",
       "Bash(scp:*)",
       "Bash(rsync:*)",
-      "Bash(ssh:*)"
+      "Bash(ssh:*)",
+      "Bash(base64 -d:*)",
+      "Bash(xxd:*)"
     ]
   }
 }
@@ -166,7 +180,7 @@ These live in `~/.claude/settings.local.json` (not checked into repos):
 
 **Why these settings?**
 - **Allow** web access to documentation domains, full git workflow, GitHub CLI for PRs, and TypeScript/Prisma tooling
-- **Deny** arbitrary code execution (`python`, `curl`, `eval`, `bash -c`), authentication changes, destructive git ops (`--force`, `--hard`, `filter-branch`), process management, and cloud/infra tools
+- **Deny** arbitrary code execution (`python`, `curl`, `eval`, `bash -c`, `source`), authentication changes, destructive git ops (`--force`, `--hard`, `filter-branch`), process management, macOS keychain access, environment manipulation (`env`, `export`), binary decoding (`base64 -d`, `xxd`), and cloud/infra tools (`aws`, `gcloud`, `az`, `kubectl`, `docker`)
 
 ### Project Permissions
 
@@ -255,7 +269,8 @@ Then enable plugins via `/plugin` menu, or add to `~/.claude/settings.json`:
     "commit-commands@claude-plugins-official": true,
     "agent-sdk-dev@claude-plugins-official": true,
     "stripe@claude-plugins-official": true,
-    "vercel@claude-plugins-official": true
+    "vercel@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true
   }
 }
 ```
@@ -357,6 +372,15 @@ Commits, pushes, and opens a PR in one command.
 
 
 ## Changelog
+
+### 2026-02-26
+
+**Added**
+- claude-md-management plugin for auditing and improving CLAUDE.md files
+- Additional global deny rules: script sourcing (`source`, `.`), environment manipulation (`env`, `export`), macOS keychain access (`security`, `keychain`), Vercel CLI (`npx vercel`, `vercel`), Azure CLI (`az`), Docker Compose, and binary decoding (`base64 -d`, `xxd`)
+
+**Changed**
+- Updated global deny list to match current configuration (16 new entries)
 
 ### 2026-02-10
 

@@ -478,22 +478,29 @@ The changelog follows a **release notes style** similar to software projects. Ea
 
 ## Documentation Links
 
-When generating the blog post, include these links (verified January 2026):
+When generating the blog post, include these links (verified February 2026):
 
 **Core Documentation:**
 - Claude Code overview: `https://code.claude.com/docs/en/overview`
 - Claude Code best practices: `https://www.anthropic.com/engineering/claude-code-best-practices`
-- CLAUDE.md guide: `https://docs.anthropic.com/en/docs/claude-code/memory`
+- CLAUDE.md / Memory guide: `https://code.claude.com/docs/en/memory`
+- Extend Claude Code (features overview): `https://code.claude.com/docs/en/features-overview`
 
 **Feature-Specific:**
 - Plugins: `https://code.claude.com/docs/en/plugins`
+- Plugins reference (technical): `https://code.claude.com/docs/en/plugins-reference`
+- Plugin marketplaces: `https://code.claude.com/docs/en/plugin-marketplaces`
 - Skills: `https://code.claude.com/docs/en/skills`
+- Subagents: `https://code.claude.com/docs/en/sub-agents`
+- Agent teams: `https://code.claude.com/docs/en/agent-teams`
 - Settings & Permissions: `https://code.claude.com/docs/en/settings`
 - MCP servers: `https://code.claude.com/docs/en/mcp`
-- Hooks: `https://code.claude.com/docs/en/hooks-guide`
+- Hooks guide (practical): `https://code.claude.com/docs/en/hooks-guide`
+- Hooks reference (technical): `https://code.claude.com/docs/en/hooks`
 
 **External Resources:**
 - Model Context Protocol: `https://modelcontextprotocol.io/`
+- Full docs index: `https://code.claude.com/docs/llms.txt`
 
 **Plugin Sources (GitHub repos):**
 - Official plugins: `https://github.com/anthropics/claude-plugins-official`
