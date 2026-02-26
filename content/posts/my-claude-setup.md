@@ -79,7 +79,7 @@ The skill is self-improving: each time it runs, it updates itself with new knowl
 
 **What are permissions?** Claude Code uses an allow/deny/ask system to control what actions it can take. Rules are checked in order: deny rules block regardless of other rules, allow rules permit if matched, and ask rules prompt for approval. [Learn more →](https://code.claude.com/docs/en/settings)
 
-**A note on permission drift:** Project `settings.json` grows over time as you approve Claude's permission prompts. These approvals are auto-appended without review, which is how dangerous permissions like `python:*` and `curl:*` can end up in your allow list. I built a [permissions audit](#permissions-audit) into my scanner to catch this.
+**A note on permission drift:** Project `settings.json` grows over time as you approve Claude's permission prompts. It's easy to approve something risky in the moment — you're focused on the task, not thinking about the permanent permission you're granting. Over time, dangerous permissions like `python:*` and `curl:*` can accumulate in your allow list. I built a [permissions audit](#permissions-audit) into my scanner to catch this.
 
 ### Global Permissions
 

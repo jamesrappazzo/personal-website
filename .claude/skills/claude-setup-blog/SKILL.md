@@ -106,7 +106,7 @@ The audit results are also included in the full scan report under the `permissio
 | High | `Bash(git remote set-url:*)` | Can redirect pushes |
 | High | (empty deny list) | No safety guardrails |
 
-**How permissions accumulate:** Project `settings.json` grows over time as users approve Claude's permission prompts during sessions. These approvals are auto-appended without review, which is how dangerous permissions like `python:*` and `curl:*` end up in the allow list. The audit catches this drift.
+**How permissions accumulate:** Project `settings.json` grows over time as users approve Claude's permission prompts during sessions. It's easy to approve something risky in the moment when you're focused on the task, not thinking about the permanent permission being granted. Over time, dangerous permissions like `python:*` and `curl:*` accumulate. The audit catches this drift.
 
 ### Step 2: Generate Blog Content
 
