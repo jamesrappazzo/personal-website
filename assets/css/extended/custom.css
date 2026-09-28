@@ -27,7 +27,7 @@
     --border: var(--industrial-border);
 }
 
-.dark {
+:root[data-theme="dark"] {
     /* Dark Industrial Palette - Warehouse at night */
     --theme: #1c1c1c;
     --entry: #252525;
@@ -72,10 +72,6 @@ body::before {
     z-index: -1;
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-.dark body::before {
-    opacity: 0.05;
 }
 
 /* Strong Typography Hierarchy */
@@ -135,11 +131,11 @@ pre code {
     background: transparent;
 }
 
-.dark pre {
+[data-theme="dark"] pre {
     background: var(--code-bg);
 }
 
-.dark code {
+[data-theme="dark"] code {
     background: var(--code-bg);
 }
 
@@ -249,7 +245,7 @@ pre code {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.dark .post-entry:hover {
+[data-theme="dark"] .post-entry:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
@@ -302,10 +298,10 @@ a:hover {
 }
 
 /* Header - minimal and functional */
-.nav {
+.header-nav {
     border-bottom: 2px solid var(--border);
     background: transparent;
-    padding: 1rem 0;
+    padding: 1rem var(--gap);
 }
 
 /* Hide empty logo */
@@ -322,8 +318,13 @@ a:hover {
 
 #menu {
     display: flex;
-    gap: 1.5rem;
+    gap: calc(1.5rem + var(--gap));
     align-items: center;
+}
+
+#menu .active {
+    text-decoration: none;
+    border-bottom: 2px solid currentColor;
 }
 
 #menu a {
@@ -519,4 +520,142 @@ footer.footer {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--warm-rust);
+}
+
+/* PaperMod master (d376885) restyled pages: body typography moved from .post-content to .md-content with new
+   spacing, links underline with text-decoration, the TOC is now a bare <details class="toc">, and the footer links,
+   top link and theme toggle were resized. These rules (to the end of the file) keep the look this site had on
+   PaperMod 8.x (7cf752f). */
+.post-title {
+    margin-bottom: 2px;
+}
+
+.post-description {
+    margin-bottom: 5px;
+}
+
+.post-meta {
+    margin-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.post-content {
+    margin: 0;
+}
+
+.post-content.md-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content.md-content :is(ul, ol, dl, figure) {
+    margin-bottom: var(--content-gap);
+}
+
+.post-content.md-content li p {
+    margin-bottom: 0;
+}
+
+.md-content li {
+    margin-top: 5px;
+}
+
+.md-content a:not(.anchor),
+.toc a:hover {
+    text-decoration: none;
+    box-shadow: 0 1px 0;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+.post-content a code {
+    margin: auto 0;
+    border-radius: 0;
+    box-shadow: 0 -1px 0 var(--primary) inset;
+}
+
+.post-content code {
+    margin: auto 4px;
+    padding: 4px 6px;
+    border-radius: 2px;
+}
+
+.md-content .highlight:not(table) {
+    margin: 10px auto;
+}
+
+.md-content table th,
+.md-content table:not(.highlighttable, .highlight table, .gist .highlight) td {
+    padding: 8px 5px;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.md-content blockquote {
+    margin: 20px 0;
+    padding: 0 14px;
+    border-inline-start: 3px solid var(--primary);
+}
+
+.md-content img {
+    border-radius: 4px;
+}
+
+details.toc {
+    margin: 0 2px 40px 2px;
+    padding: 0.4em;
+}
+
+details.toc summary {
+    padding: 0;
+    margin-inline-start: 10px;
+}
+
+details.toc .title {
+    margin-inline-start: 0;
+}
+
+details.toc .inner {
+    margin: 5px 20px 0;
+    padding: 0 10px;
+    opacity: 0.9;
+}
+
+.post-footer {
+    margin-top: 56px;
+}
+
+.footer a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--secondary);
+}
+
+.footer a:hover {
+    border-bottom: 1px solid var(--primary);
+}
+
+.top-link {
+    bottom: 60px;
+    right: 30px;
+    width: 42px;
+    height: 42px;
+    padding: 12px;
+}
+
+.logo {
+    column-gap: 0;
+}
+
+.logo-switches {
+    margin: auto 4px;
+}
+
+.theme-toggle {
+    padding: 0;
+    margin: auto 4px;
+}
+
+.theme-toggle svg {
+    width: 24px;
+    height: 18px;
 }

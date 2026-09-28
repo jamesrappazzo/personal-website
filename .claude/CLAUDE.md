@@ -16,7 +16,7 @@ Personal website and blog built with Hugo and the PaperMod theme, deployed to Gi
 hugo server              # Local dev server with hot reload (localhost:1313)
 hugo server -D           # Include draft posts
 hugo --minify            # Production build to public/
-hugo version             # Check Hugo version (requires 0.146.0+)
+hugo version             # Check Hugo version (requires 0.166.0+, the version CI uses)
 ```
 
 The scanner script for the claude-setup-blog skill:
@@ -32,6 +32,7 @@ python3 scripts/scan_claude_config.py --audit  # Permissions security audit
 - **Theme**: `themes/PaperMod/` (git submodule) — do not edit directly
 - **Content**: `content/posts/` for blog posts, `content/about.md` for about page
 - **Custom layout**: `layouts/index.html` — homepage: intro (heading from `heading` and text from the body of `content/_index.md`, whose `title` stays the site title so `<title>` and RSS are unchanged), pinned posts section and writing section
+- **Theme template overrides**: `layouts/baseof.html`, `layouts/rss.xml`, `layouts/_partials/templates/opengraph.html` — copies of PaperMod's with only a Hugo-deprecated `.Language.*` call swapped, so the build has no WARN; delete each once PaperMod makes that change
 - **Content from Obsidian**: `obsidian-hugo.toml` maps vault notes to content files (posts in `content/posts/<slug>/index.md`, Home → `content/_index.md`, About → `content/about.md`); the obsidian plugin's hugo-publish skill writes them. Edit those in the vault, not here.
 - **Custom CSS**: `assets/css/extended/custom.css` — industrial minimal theme (rust/steel palette, DM Sans + JetBrains Mono)
 - **Deploy**: `.github/workflows/hugo.yml` — builds on push to main, deploys to GitHub Pages
