@@ -31,7 +31,7 @@ python3 scripts/scan_claude_config.py --audit  # Permissions security audit
 - **Hugo config**: `hugo.toml` — site settings, menu, social icons, PaperMod params
 - **Theme**: `themes/PaperMod/` (git submodule) — do not edit directly
 - **Content**: `content/posts/` for blog posts, `content/about.md` for about page
-- **Custom layout**: `layouts/index.html` — homepage: intro (heading from `heading` and text from the body of `content/_index.md`, whose `title` stays the site title and whose body starts with `<!--more-->` so the page head is unchanged), pinned posts section and writing section
+- **Custom layout**: `layouts/index.html` — homepage: intro (heading from `heading` and text from the body of `content/_index.md`, whose `title` stays the site title so `<title>` and RSS are unchanged), pinned posts section and writing section
 - **Content from Obsidian**: `obsidian-hugo.toml` maps vault notes to content files (posts in `content/posts/<slug>/index.md`, Home → `content/_index.md`, About → `content/about.md`); the obsidian plugin's hugo-publish skill writes them. Edit those in the vault, not here.
 - **Custom CSS**: `assets/css/extended/custom.css` — industrial minimal theme (rust/steel palette, DM Sans + JetBrains Mono)
 - **Deploy**: `.github/workflows/hugo.yml` — builds on push to main, deploys to GitHub Pages
