@@ -1,7 +1,7 @@
 ---
 title: "My Claude Code Setup"
 date: 2026-02-26
-draft: false
+draft: true
 tags: ["claude", "AI", "development", "tooling"]
 categories: ["Development"]
 description: "My Claude Code configuration, plugins, and workflows"
