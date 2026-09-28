@@ -32,7 +32,7 @@ python3 scripts/scan_claude_config.py --audit  # Permissions security audit
 - **Theme**: `themes/PaperMod/` (git submodule) — do not edit directly
 - **Content**: `content/posts/` for blog posts, `content/about.md` for about page
 - **Custom layout**: `layouts/index.html` — homepage: intro (heading from `heading` and text from the body of `content/_index.md`, whose `title` stays the site title so `<title>` and RSS are unchanged), pinned posts section and writing section
-- **Theme template overrides**: `layouts/baseof.html`, `layouts/rss.xml`, `layouts/_partials/templates/opengraph.html` — copies of PaperMod's with only a Hugo-deprecated `.Language.*` call swapped, so the build has no WARN; delete each once PaperMod makes that change
+- **Hugo warnings**: Hugo 0.166.0 prints two deprecation warnings (LanguageDirection, LanguageCode) from PaperMod's own templates; they are expected until PaperMod updates. Don't override theme templates to silence them.
 - **Content from Obsidian**: `obsidian-hugo.toml` maps vault notes to content files (posts in `content/posts/<slug>/index.md`, Home → `content/_index.md`, About → `content/about.md`); the obsidian plugin's hugo-publish skill writes them. Edit those in the vault, not here.
 - **Custom CSS**: `assets/css/extended/custom.css` — industrial minimal theme (rust/steel palette, DM Sans + JetBrains Mono)
 - **Deploy**: `.github/workflows/hugo.yml` — builds on push to main, deploys to GitHub Pages
