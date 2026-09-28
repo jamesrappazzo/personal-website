@@ -1,0 +1,14 @@
+# Obsidian → Hugo publishing. Read by the obsidian plugin's hugo-publish skill.
+# Paths under [posts] and [[pages]] are relative to the vault (note) or the site repo (content).
+
+[posts]
+notes = "Blog/Posts"          # vault folder: one note per post
+content = "content/posts"     # each post is published as a page bundle: <content>/<slug>/index.md
+
+[[pages]]
+note = "Blog/Pages/Home.md"
+content = "content/_index.md"
+
+[[pages]]
+note = "Blog/Pages/About.md"
+content = "content/about.md"

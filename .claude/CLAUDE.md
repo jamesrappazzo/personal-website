@@ -31,7 +31,8 @@ python3 scripts/scan_claude_config.py --audit  # Permissions security audit
 - **Hugo config**: `hugo.toml` — site settings, menu, social icons, PaperMod params
 - **Theme**: `themes/PaperMod/` (git submodule) — do not edit directly
 - **Content**: `content/posts/` for blog posts, `content/about.md` for about page
-- **Custom layout**: `layouts/index.html` — homepage with pinned posts section and writing section
+- **Custom layout**: `layouts/index.html` — homepage: intro (heading from `heading` and text from the body of `content/_index.md`, whose `title` stays the site title so `<title>` and RSS are unchanged), pinned posts section and writing section
+- **Content from Obsidian**: `obsidian-hugo.toml` maps vault notes to content files (posts in `content/posts/<slug>/index.md`, Home → `content/_index.md`, About → `content/about.md`); the obsidian plugin's hugo-publish skill writes them. Edit those in the vault, not here.
 - **Custom CSS**: `assets/css/extended/custom.css` — industrial minimal theme (rust/steel palette, DM Sans + JetBrains Mono)
 - **Deploy**: `.github/workflows/hugo.yml` — builds on push to main, deploys to GitHub Pages
 - **Domain**: `static/CNAME` — custom domain config
@@ -68,3 +69,22 @@ For each distinct task:
 
 ### Development Approach
 - Prefer practical solutions over over-engineered abstractions
+
+## Shepherd Contract
+
+- **Tracker** — GitHub Issues on this repo (optional: most changes are asked for in chat and go straight to a PR)
+- **Issue id** — `#<N>`
+- **Read a ticket** — `gh issue view <N> --json state,title`
+- **Branch** — `<type>/<short-slug>` (post branches from the hugo-publish skill: `post/<slug>`)
+- **Commit** — conventional commits
+- **PR title** — `<type>: <summary>`
+- **PR closes** — `Closes #<N>` in the PR body when there is an issue
+- **Close the ticket** — automatic, from that line
+- **Merge** — `gh pr merge <PR> --squash --delete-branch`, run by the owner, never an agent
+- **Worktree create** — `git worktree add ../personal-website-<slug> -b <branch> origin/main && git -C ../personal-website-<slug> submodule update --init`
+- **Worktree remove** — `git worktree remove ../personal-website-<slug>`
+- **Gates** — `hugo --minify -d <tmp dir>` with Hugo matching `HUGO_VERSION` in `.github/workflows/hugo.yml`: no `ERROR` lines
+- **CI status** — none on PRs; CI builds and deploys on push to `main`
+- **Dev server** — `hugo server -p <port> --bind 127.0.0.1`
+- **Evidence** — `.evidence/` (outside `content/` and `static/`, so Hugo never publishes it)
+- **Human sign-off** — every merge (merging to `main` deploys the live site)
