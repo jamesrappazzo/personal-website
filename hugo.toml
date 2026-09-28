@@ -10,10 +10,6 @@ pagerSize = 5
 showPostsOnHomePage = true
 mainSections = ["posts"]
 
-[params.homeInfoParams]
-Title = "Hi, I'm James."
-Content = "I build things with AI and write about what I learn. Sometimes other stuff, too."
-
 [[params.socialIcons]]
 name = "github"
 url = "https://github.com/jamesrappazzo"

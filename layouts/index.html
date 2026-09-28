@@ -1,14 +1,17 @@
 {{- define "main" }}
 
-{{- if .Site.Params.homeInfoParams }}
-<article class="home-info">
-    {{- with .Site.Params.homeInfoParams }}
-    <h1>{{ .Title | markdownify }}</h1>
-    <div class="entry-content">{{ .Content | markdownify }}</div>
-    {{- end }}
-    {{- partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
-</article>
+{{- /* Heading and intro come from content/_index.md (edited as a note in Obsidian). Its `title` stays the site title
+     so <title>, RSS and OpenGraph are unchanged; the heading is `heading`, and the body starts with <!--more--> so
+     the intro is not used as og:description. A one-paragraph intro is unwrapped from <p>, as markdownify did. */}}
+{{- $intro := .Content }}
+{{- if eq (len (findRE `<p>` $intro)) 1 }}
+{{- $intro = replaceRE `(?s)^\s*<p>(.*)</p>\s*$` "$1" $intro | safeHTML }}
 {{- end }}
+<article class="home-info">
+    <h1>{{ .Params.heading | markdownify }}</h1>
+    <div class="entry-content">{{ $intro }}</div>
+    {{- partial "social_icons.html" (dict) }}
+</article>
 
 {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
 {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
