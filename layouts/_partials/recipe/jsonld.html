@@ -9,7 +9,10 @@
   "author" (dict "@type" "Person" "name" (site.Params.author | default "James Rappazzo"))
   "recipeIngredient" $r.ingredients
 }}
-{{- with .Description | default .Summary }}{{ $ld = merge $ld (dict "description" (. | plainify | htmlUnescape | strings.TrimSpace)) }}{{ end }}
+{{- /* Front-matter description is Markdown; the fallback summary is already HTML (markdownify would drop it). */}}
+{{- $desc := "" }}
+{{- with .Description }}{{ $desc = . | markdownify }}{{ else }}{{ $desc = .Summary }}{{ end }}
+{{- with $desc | plainify | htmlUnescape | strings.TrimSpace }}{{ $ld = merge $ld (dict "description" .) }}{{ end }}
 {{- with $r.image }}
   {{- $img := . }}
   {{- if and (in (slice "jpeg" "png" "webp" "gif" "tiff" "bmp") .MediaType.SubType) (gt .Width 1600) }}

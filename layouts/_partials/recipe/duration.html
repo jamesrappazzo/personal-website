@@ -1,13 +1,16 @@
-{{- /* A recipe time as written in front matter ("20 min", "1 h 30 min", "1 hour", "90") → ISO 8601 ("PT1H30M"),
-     or "" when it can't be read (e.g. "overnight"): the page still shows the text, only the JSON-LD skips it.
+{{- /* A recipe time as written in front matter ("20 min", "1 h 30 min", "1.5 h", "1 hour", "90") → ISO 8601
+     ("PT1H30M"), rounded to whole minutes, or "" when it can't be read (e.g. "overnight", or a fraction like
+     "1 1/2 hours"): the page still shows the text, only the JSON-LD skips it.
      Returns (dict "iso" "PT…" "minutes" <int>). */ -}}
 {{- $s := lower (trim (string .) " ") }}
-{{- $d := 0 }}{{- $h := 0 }}{{- $m := 0 }}
-{{- with findRESubmatch `(\d+)\s*d` $s 1 }}{{ $d = int (index (index . 0) 1) }}{{ end }}
-{{- with findRESubmatch `(\d+)\s*h` $s 1 }}{{ $h = int (index (index . 0) 1) }}{{ end }}
-{{- with findRESubmatch `(\d+)\s*m` $s 1 }}{{ $m = int (index (index . 0) 1) }}{{ end }}
-{{- if findRE `^\d+$` $s }}{{ $m = int $s }}{{ end }}
-{{- $minutes := add (mul $d 1440) (add (mul $h 60) $m) }}
+{{- $total := 0.0 }}
+{{- if not (in $s "/") }}
+  {{- with findRESubmatch `(\d+(?:\.\d+)?)\s*d` $s 1 }}{{ $total = add $total (mul (float (index (index . 0) 1)) 1440) }}{{ end }}
+  {{- with findRESubmatch `(\d+(?:\.\d+)?)\s*h` $s 1 }}{{ $total = add $total (mul (float (index (index . 0) 1)) 60) }}{{ end }}
+  {{- with findRESubmatch `(\d+(?:\.\d+)?)\s*m` $s 1 }}{{ $total = add $total (float (index (index . 0) 1)) }}{{ end }}
+  {{- if findRE `^\d+(?:\.\d+)?$` $s }}{{ $total = float $s }}{{ end }}
+{{- end }}
+{{- $minutes := int (math.Round $total) }}
 {{- $iso := "" }}
 {{- if gt $minutes 0 }}
   {{- $iso = "PT" }}

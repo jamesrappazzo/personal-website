@@ -8,6 +8,7 @@
 </header>
 <div class="recipe-grid">
   {{- range .RegularPages.ByDate.Reverse }}
+  {{- $page := . }}
   {{- $r := partial "recipe/data.html" . }}
   <article class="post-entry recipe-card">
     {{- with $r.image }}
@@ -16,7 +17,7 @@
     {{- $thumb = .Fill "720x540 Center webp q80" }}
     {{- end }}
     <figure class="recipe-card-image">
-      <img src="{{ $thumb.RelPermalink }}" alt="{{ $.Title | plainify }}" loading="lazy">
+      <img src="{{ $thumb.RelPermalink }}" alt="{{ $page.Title | plainify }}" loading="lazy">
     </figure>
     {{- end }}
     <header class="entry-header">

@@ -28,8 +28,8 @@
       {{- end }}
     </dl>
     {{- end }}
-    {{- if $r.ingredients }}
-    <a class="recipe-jump" href="#ingredients">Jump to recipe ↓</a>
+    {{- with $r.anchor }}
+    <a class="recipe-jump" href="#{{ . }}">Jump to recipe ↓</a>
     {{- end }}
   </div>
   {{- end }}
