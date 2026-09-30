@@ -1,0 +1,54 @@
+{{- /* Structured recipe data read from a recipe page, for the page itself and its schema.org JSON-LD.
+     The Markdown is the source of truth: `## Ingredients` (list items, optionally grouped under `###` headings)
+     and `## Instructions` (or Method / Directions / Steps: one list item per step, `###` headings make sections).
+     Times, yield and the rest come from front matter. */ -}}
+{{- $raw := .RawContent }}
+{{- $clean := `(?m)^[ \t]*(?:[-*+]|\d+[.)])[ \t]+(?:\[[ xX]\][ \t]+)?` }}
+
+{{- $ingredients := slice }}
+{{- with findRESubmatch `(?ims)^##[ \t]+ingredients[ \t]*$(.*?)(?:^##[ \t]|\z)` $raw 1 }}
+  {{- range findRE `(?m)^[ \t]*(?:[-*+]|\d+[.)])[ \t]+.+$` (index (index . 0) 1) }}
+    {{- $ingredients = $ingredients | append (replaceRE $clean "" . | markdownify | plainify | htmlUnescape | strings.TrimSpace) }}
+  {{- end }}
+{{- end }}
+
+{{- /* Steps: a flat list, or HowToSections when the steps sit under ### headings. */}}
+{{- $sections := slice }}
+{{- with findRESubmatch `(?ims)^##[ \t]+(?:instructions|method|directions|steps)[ \t]*$(.*?)(?:^##[ \t]|\z)` $raw 1 }}
+  {{- $name := "" }}{{- $steps := slice }}
+  {{- range split (index (index . 0) 1) "\n" }}
+    {{- with findRESubmatch `^###[ \t]+(.+?)[ \t#]*$` . 1 }}
+      {{- if $steps }}{{ $sections = $sections | append (dict "name" $name "steps" $steps) }}{{ end }}
+      {{- $name = index (index . 0) 1 | markdownify | plainify | htmlUnescape }}{{- $steps = slice }}
+    {{- else }}
+      {{- if findRE `^[ \t]*(?:[-*+]|\d+[.)])[ \t]+\S` . }}
+        {{- $steps = $steps | append (replaceRE $clean "" . | markdownify | plainify | htmlUnescape | strings.TrimSpace) }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if $steps }}{{ $sections = $sections | append (dict "name" $name "steps" $steps) }}{{ end }}
+{{- end }}
+
+{{- /* The photo: front matter `image`, else the first image in the text, else any image in the bundle. */}}
+{{- $image := "" }}
+{{- with .Params.image }}{{ $image = $.Resources.GetMatch (path.Base .) }}{{ end }}
+{{- if not $image }}
+  {{- with findRESubmatch `!\[[^\]]*\]\(<?([^)\s>]+)` $raw 1 }}
+    {{- $image = $.Resources.Get (urls.Parse (index (index . 0) 1)).Path }}
+  {{- end }}
+{{- end }}
+{{- if not $image }}{{ $image = index (.Resources.ByType "image") 0 }}{{ end }}
+
+{{- $prep := partial "recipe/duration.html" (.Params.prep | default "") }}
+{{- $cook := partial "recipe/duration.html" (.Params.cook | default "") }}
+{{- $total := partial "recipe/duration.html" (.Params.total | default "") }}
+{{- if and (not .Params.total) $prep.iso $cook.iso }}
+  {{- $total = partial "recipe/duration.html" (printf "%dm" (add $prep.minutes $cook.minutes)) }}
+{{- end }}
+
+{{- return (dict
+  "ingredients" $ingredients
+  "sections" $sections
+  "image" $image
+  "prep" $prep.iso "cook" $cook.iso "total" $total.iso
+) }}
