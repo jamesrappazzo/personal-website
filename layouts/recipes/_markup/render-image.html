@@ -1,0 +1,18 @@
+{{- /* Recipe photos come straight off a phone: serve a resized copy (with a srcset), not the multi-megabyte original. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $img := "" -}}
+{{- if not $u.IsAbs }}{{ $img = .PageInner.Resources.Get (strings.TrimPrefix "./" $u.Path) }}{{ end -}}
+{{- if and $img (in (slice "jpeg" "png" "webp" "tiff" "bmp") $img.MediaType.SubType) -}}
+  {{- $srcset := slice -}}
+  {{- range slice 480 800 1200 1600 -}}
+    {{- if ge $img.Width . -}}
+      {{- $srcset = $srcset | append (printf "%s %dw" ($img.Resize (printf "%dx webp q80" .)).RelPermalink .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $src := $img -}}
+  {{- if gt $img.Width 1200 }}{{ $src = $img.Resize "1200x webp q80" }}{{ end -}}
+  <img src="{{ $src.RelPermalink }}" {{ with $srcset }}srcset="{{ delimit . ", " }}" sizes="(max-width: 800px) 100vw, 800px" {{ end -}}
+    width="{{ $src.Width }}" height="{{ $src.Height }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}" {{ end }}loading="lazy">
+{{- else -}}
+  <img src="{{ with $img }}{{ .RelPermalink }}{{ else }}{{ .Destination | safeURL }}{{ end }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}" {{ end }}loading="lazy">
+{{- end -}}

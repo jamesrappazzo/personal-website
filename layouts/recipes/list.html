@@ -1,0 +1,39 @@
+{{- define "main" }}
+{{- /* The recipe index: a grid of photo cards. */}}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- with .Content }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+<div class="recipe-grid">
+  {{- range .RegularPages.ByDate.Reverse }}
+  {{- $page := . }}
+  {{- $r := partial "recipe/data.html" . }}
+  <article class="post-entry recipe-card">
+    {{- with $r.image }}
+    {{- $thumb := . }}
+    {{- if in (slice "jpeg" "png" "webp" "gif" "tiff" "bmp") .MediaType.SubType }}
+    {{- $thumb = .Fill "720x540 Center webp q80" }}
+    {{- end }}
+    <figure class="recipe-card-image">
+      <img src="{{ $thumb.RelPermalink }}" alt="{{ $page.Title | plainify }}" loading="lazy">
+    </figure>
+    {{- end }}
+    <header class="entry-header">
+      <h2>{{ .Title }}</h2>
+    </header>
+    {{- with .Description }}
+    <div class="entry-content"><p>{{ . | plainify }}</p></div>
+    {{- end }}
+    {{- $meta := slice }}
+    {{- with .Params.yield }}{{ $meta = $meta | append (string .) }}{{ end }}
+    {{- with .Params.total }}{{ $meta = $meta | append (string .) }}{{ end }}
+    {{- with $meta }}
+    <footer class="entry-footer">{{ delimit . " · " }}</footer>
+    {{- end }}
+    <a class="entry-link" aria-label="recipe link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+  </article>
+  {{- end }}
+</div>
+{{- end }}

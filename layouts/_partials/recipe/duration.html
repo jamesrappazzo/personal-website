@@ -1,0 +1,21 @@
+{{- /* A recipe time as written in front matter ("20 min", "1 h 30 min", "1.5 h", "1 hour", "90") → ISO 8601
+     ("PT1H30M"), rounded to whole minutes, or "" when it can't be read (e.g. "overnight", or a fraction like
+     "1 1/2 hours"): the page still shows the text, only the JSON-LD skips it.
+     Returns (dict "iso" "PT…" "minutes" <int>). */ -}}
+{{- $s := lower (trim (string .) " ") }}
+{{- $total := 0.0 }}
+{{- if not (in $s "/") }}
+  {{- with findRESubmatch `(\d+(?:\.\d+)?)\s*d` $s 1 }}{{ $total = add $total (mul (float (index (index . 0) 1)) 1440) }}{{ end }}
+  {{- with findRESubmatch `(\d+(?:\.\d+)?)\s*h` $s 1 }}{{ $total = add $total (mul (float (index (index . 0) 1)) 60) }}{{ end }}
+  {{- with findRESubmatch `(\d+(?:\.\d+)?)\s*m` $s 1 }}{{ $total = add $total (float (index (index . 0) 1)) }}{{ end }}
+  {{- if findRE `^\d+(?:\.\d+)?$` $s }}{{ $total = float $s }}{{ end }}
+{{- end }}
+{{- $minutes := int (math.Round $total) }}
+{{- $iso := "" }}
+{{- if gt $minutes 0 }}
+  {{- $iso = "PT" }}
+  {{- $hours := div $minutes 60 }}
+  {{- with $hours }}{{ $iso = printf "%s%dH" $iso . }}{{ end }}
+  {{- with mod $minutes 60 }}{{ $iso = printf "%s%dM" $iso . }}{{ end }}
+{{- end }}
+{{- return (dict "iso" $iso "minutes" $minutes) }}

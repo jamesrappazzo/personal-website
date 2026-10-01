@@ -1,0 +1,52 @@
+{{- define "main" }}
+{{- /* A recipe: PaperMod's post layout plus the recipe facts (yield and times from front matter), a jump link to
+     the ingredients and schema.org Recipe JSON-LD for recipe importers. The text itself is plain Markdown. */}}
+{{- $r := partial "recipe/data.html" . }}
+<article class="post-single recipe">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{- with .Description }}
+    <div class="post-description">{{ . | markdownify }}</div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">{{- partial "post_meta.html" . -}}</div>
+    {{- end }}
+  </header>
+
+  {{- $facts := slice }}
+  {{- with .Params.yield }}{{ $facts = $facts | append (dict "k" "Makes" "v" .) }}{{ end }}
+  {{- with .Params.prep }}{{ $facts = $facts | append (dict "k" "Prep" "v" .) }}{{ end }}
+  {{- with .Params.cook }}{{ $facts = $facts | append (dict "k" "Cook" "v" .) }}{{ end }}
+  {{- with .Params.total }}{{ $facts = $facts | append (dict "k" "Total" "v" .) }}{{ end }}
+  {{- if or $facts $r.ingredients }}
+  <div class="recipe-facts">
+    {{- if $facts }}
+    <dl>
+      {{- range $facts }}
+      <div><dt>{{ .k }}</dt><dd>{{ .v }}</dd></div>
+      {{- end }}
+    </dl>
+    {{- end }}
+    {{- with $r.anchor }}
+    <a class="recipe-jump" href="#{{ . }}">Jump to recipe ↓</a>
+    {{- end }}
+  </div>
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- partial "anchored_headings.html" .Content -}}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      {{- range .GetTerms "tags" }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+  </footer>
+  {{- partial "recipe/jsonld.html" . }}
+</article>
+{{- end }}

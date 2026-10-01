@@ -12,3 +12,7 @@ content = "content/_index.md"
 [[pages]]
 note = "Blog/Pages/About.md"
 content = "content/about.md"
+
+[recipes]
+notes = "Blog/Recipes"        # vault folder: one note per recipe (written with the obsidian plugin's recipe skill)
+content = "content/recipes"   # published like posts: <content>/<slug>/index.md, photos beside it

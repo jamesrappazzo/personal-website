@@ -1,0 +1,41 @@
+{{- /* schema.org Recipe JSON-LD: what recipe importers (AnyList, Paprika, Google) read. */ -}}
+{{- $r := partial "recipe/data.html" . }}
+{{- $ld := dict
+  "@context" "https://schema.org"
+  "@type" "Recipe"
+  "name" (.Title | plainify)
+  "url" .Permalink
+  "datePublished" (.Date.Format "2006-01-02")
+  "author" (dict "@type" "Person" "name" (site.Params.author | default "James Rappazzo"))
+  "recipeIngredient" $r.ingredients
+}}
+{{- /* Front-matter description is Markdown; the fallback summary is already HTML (markdownify would drop it). */}}
+{{- $desc := "" }}
+{{- with .Description }}{{ $desc = . | markdownify }}{{ else }}{{ $desc = .Summary }}{{ end }}
+{{- with $desc | plainify | htmlUnescape | strings.TrimSpace }}{{ $ld = merge $ld (dict "description" .) }}{{ end }}
+{{- with $r.image }}
+  {{- $img := . }}
+  {{- if and (in (slice "jpeg" "png" "webp" "gif" "tiff" "bmp") .MediaType.SubType) (gt .Width 1600) }}
+    {{- $img = .Resize "1600x jpg q85" }}
+  {{- end }}
+  {{- $ld = merge $ld (dict "image" (slice $img.Permalink)) }}
+{{- end }}
+{{- with .Params.yield }}{{ $ld = merge $ld (dict "recipeYield" (string .)) }}{{ end }}
+{{- with $r.prep }}{{ $ld = merge $ld (dict "prepTime" .) }}{{ end }}
+{{- with $r.cook }}{{ $ld = merge $ld (dict "cookTime" .) }}{{ end }}
+{{- with $r.total }}{{ $ld = merge $ld (dict "totalTime" .) }}{{ end }}
+{{- with .Params.category }}{{ $ld = merge $ld (dict "recipeCategory" (string .)) }}{{ end }}
+{{- with .Params.cuisine }}{{ $ld = merge $ld (dict "recipeCuisine" (string .)) }}{{ end }}
+{{- with .Params.tags }}{{ $ld = merge $ld (dict "keywords" (delimit . ", ")) }}{{ end }}
+{{- $steps := slice }}
+{{- range $r.sections }}
+  {{- $howto := slice }}
+  {{- range .steps }}{{ $howto = $howto | append (dict "@type" "HowToStep" "text" .) }}{{ end }}
+  {{- if .name }}
+    {{- $steps = $steps | append (dict "@type" "HowToSection" "name" .name "itemListElement" $howto) }}
+  {{- else }}
+    {{- $steps = $steps | append $howto }}
+  {{- end }}
+{{- end }}
+{{- $ld = merge $ld (dict "recipeInstructions" $steps) }}
+<script type="application/ld+json">{{ jsonify $ld | safeJS }}</script>
