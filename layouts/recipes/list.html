@@ -1,16 +1,53 @@
 {{- define "main" }}
-{{- /* The recipe index: a grid of photo cards. */}}
+{{- /* The recipe index: a grid of photo cards, with a search box and category / tag filters (shown by the script
+     at the end, so without JavaScript every card is listed and no filter bar appears). Search matches the title,
+     description, tags and front-matter `key_ingredients` — not the full ingredients list. */}}
 <header class="page-header">
   <h1>{{ .Title }}</h1>
   {{- with .Content }}
   <div class="post-description">{{ . }}</div>
   {{- end }}
 </header>
+{{- /* Categories and tags, keyed by lower case (the first spelling seen is shown). */}}
+{{- $cats := dict }}{{- $tags := dict }}
+{{- range .RegularPages }}
+  {{- with .Params.category }}
+    {{- $k := lower (string .) }}
+    {{- if not (index $cats $k) }}{{ $cats = merge $cats (dict $k (string .)) }}{{ end }}
+  {{- end }}
+  {{- range .Params.tags }}
+    {{- $k := lower (string .) }}
+    {{- if not (index $tags $k) }}{{ $tags = merge $tags (dict $k (string .)) }}{{ end }}
+  {{- end }}
+{{- end }}
+<div class="recipe-filter" hidden>
+  <input type="search" class="recipe-search" placeholder="Search recipes, e.g. chicken" aria-label="Search recipes">
+  <div class="recipe-chips" role="group" aria-label="Category">
+    <button type="button" data-cat="" aria-pressed="true">All</button>
+    {{- range $k, $v := $cats }}
+    <button type="button" data-cat="{{ $k }}" aria-pressed="false">{{ $v }}</button>
+    {{- end }}
+  </div>
+  {{- with $tags }}
+  <div class="recipe-chips recipe-tags" role="group" aria-label="Tags">
+    {{- range $k, $v := . }}
+    <button type="button" data-tag="{{ $k }}" aria-pressed="false">#{{ $v }}</button>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>
 <div class="recipe-grid">
   {{- range .RegularPages.ByDate.Reverse }}
   {{- $page := . }}
   {{- $r := partial "recipe/data.html" . }}
-  <article class="post-entry recipe-card">
+  {{- $cardTags := slice }}
+  {{- range .Params.tags }}{{ $cardTags = $cardTags | append (string .) }}{{ end }}
+  {{- $keys := slice }}
+  {{- if reflect.IsSlice .Params.key_ingredients }}
+    {{- range .Params.key_ingredients }}{{ $keys = $keys | append (string .) }}{{ end }}
+  {{- end }}
+  {{- $text := delimit (slice .Title (.Description | default "") (delimit $cardTags " ") (delimit $keys " ")) " " | plainify | lower }}
+  <article class="post-entry recipe-card" data-cat="{{ lower (string (.Params.category | default "")) }}" data-tags='{{ apply $cardTags "lower" "." | jsonify }}' data-text="{{ $text }}">
     {{- with $r.image }}
     {{- $thumb := . }}
     {{- if in (slice "jpeg" "png" "webp" "gif" "tiff" "bmp") .MediaType.SubType }}
@@ -19,10 +56,18 @@
     <figure class="recipe-card-image">
       <img src="{{ $thumb.RelPermalink }}" alt="{{ $page.Title | plainify }}" loading="lazy">
     </figure>
+    {{- else }}
+    <figure class="recipe-card-image recipe-card-placeholder" aria-hidden="true">
+      <span>{{ .Params.category | default "Recipe" }}</span>
+    </figure>
     {{- end }}
     <header class="entry-header">
+      {{- with .Params.category }}<p class="recipe-card-category">{{ . }}</p>{{ end }}
       <h2>{{ .Title }}</h2>
     </header>
+    {{- with $keys }}
+    <p class="recipe-card-keys">{{ delimit . " · " }}</p>
+    {{- end }}
     {{- with .Description }}
     <div class="entry-content"><p>{{ . | plainify }}</p></div>
     {{- end }}
@@ -36,4 +81,35 @@
   </article>
   {{- end }}
 </div>
+<p class="recipe-empty" hidden>No recipes match.</p>
+<script>
+(() => {
+  const box = document.querySelector('.recipe-filter'); box.hidden = false;
+  const q = box.querySelector('.recipe-search'), cards = [...document.querySelectorAll('.recipe-card')];
+  const empty = document.querySelector('.recipe-empty');
+  let cat = '', tags = new Set();
+  const apply = () => {
+    const words = q.value.toLowerCase().split(/\s+/).filter(Boolean); let shown = 0;
+    for (const c of cards) {
+      const ct = JSON.parse(c.dataset.tags || '[]');
+      const ok = (!cat || c.dataset.cat === cat) && [...tags].every(t => ct.includes(t))
+        && words.every(w => c.dataset.text.includes(w));
+      c.hidden = !ok; shown += ok;
+    }
+    empty.hidden = shown > 0;
+  };
+  box.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if ('cat' in b.dataset) {
+      cat = b.dataset.cat;
+      box.querySelectorAll('[data-cat]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    } else {
+      const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
+      on ? tags.add(b.dataset.tag) : tags.delete(b.dataset.tag);
+    }
+    apply();
+  });
+  q.addEventListener('input', apply);
+})();
+</script>
 {{- end }}

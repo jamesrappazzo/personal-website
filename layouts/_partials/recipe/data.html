@@ -20,11 +20,22 @@
 {{- end }}
 {{- $clean := `(?m)^[ \t]*(?:[-*+]|\d+[.)])[ \t]+(?:\[[ xX]\][ \t]+)?` }}
 
-{{- $ingredients := slice }}
+{{- /* Ingredients: a flat list (for the JSON-LD) and the same items grouped under their ### headings (for Copy). */}}
+{{- $ingredients := slice }}{{- $groups := slice }}
 {{- with findRESubmatch `(?ims)^##[ \t]+ingredients\b[^\n]*$(.*?)(?:^##[ \t]|\z)` $raw 1 }}
-  {{- range findRE `(?m)^[ \t]*(?:[-*+]|\d+[.)])[ \t]+.+$` (index (index . 0) 1) }}
-    {{- $ingredients = $ingredients | append (replaceRE $clean "" . | markdownify | plainify | htmlUnescape | strings.TrimSpace) }}
+  {{- $name := "" }}{{- $items := slice }}
+  {{- range split (index (index . 0) 1) "\n" }}
+    {{- with findRESubmatch `^###[ \t]+(.+?)[ \t#]*$` . 1 }}
+      {{- if $items }}{{ $groups = $groups | append (dict "name" $name "items" $items) }}{{ end }}
+      {{- $name = index (index . 0) 1 | markdownify | plainify | htmlUnescape | strings.TrimSpace }}{{- $items = slice }}
+    {{- else }}
+      {{- if findRE `^[ \t]*(?:[-*+]|\d+[.)])[ \t]+.+$` . }}
+        {{- $item := replaceRE $clean "" . | markdownify | plainify | htmlUnescape | strings.TrimSpace }}
+        {{- $ingredients = $ingredients | append $item }}{{- $items = $items | append $item }}
+      {{- end }}
+    {{- end }}
   {{- end }}
+  {{- if $items }}{{ $groups = $groups | append (dict "name" $name "items" $items) }}{{ end }}
 {{- end }}
 
 {{- /* Steps: a flat list, or HowToSections when the steps sit under ### headings. */}}
@@ -71,6 +82,7 @@
 
 {{- return (dict
   "ingredients" $ingredients
+  "ingredientGroups" $groups
   "anchor" $anchor
   "sections" $sections
   "image" $image

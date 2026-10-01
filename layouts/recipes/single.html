@@ -28,9 +28,35 @@
       {{- end }}
     </dl>
     {{- end }}
-    {{- with $r.anchor }}
-    <a class="recipe-jump" href="#{{ . }}">Jump to recipe ↓</a>
-    {{- end }}
+    <div class="recipe-actions">
+      {{- if $r.ingredients }}
+      {{- /* The recipe as plain text in the usual layout, for pasting into AnyList, Paprika or notes. */}}
+      {{- $t := slice .Title "" }}
+      {{- $f := slice }}
+      {{- with .Params.yield }}{{ $f = $f | append (printf "Serves: %v" .) }}{{ end }}
+      {{- with .Params.prep }}{{ $f = $f | append (printf "Prep time: %v" .) }}{{ end }}
+      {{- with .Params.cook }}{{ $f = $f | append (printf "Cook time: %v" .) }}{{ end }}
+      {{- with .Params.total }}{{ $f = $f | append (printf "Total time: %v" .) }}{{ end }}
+      {{- with $f }}{{ $t = $t | append . | append "" }}{{ end }}
+      {{- $t = $t | append "Ingredients" }}
+      {{- range $r.ingredientGroups }}
+        {{- with .name }}{{ $t = $t | append "" (printf "%s:" .) }}{{ end }}
+        {{- range .items }}{{ $t = $t | append . }}{{ end }}
+      {{- end }}
+      {{- with $r.sections }}
+        {{- $t = $t | append "" "Instructions" }}
+        {{- range . }}
+          {{- with .name }}{{ $t = $t | append "" (printf "%s:" .) }}{{ end }}
+          {{- range $i, $step := .steps }}{{ $t = $t | append (printf "%d. %s" (add $i 1) $step) }}{{ end }}
+        {{- end }}
+      {{- end }}
+      {{- $t = $t | append "" (printf "Source: %s" .Permalink) }}
+      <button type="button" class="recipe-copy" data-text="{{ delimit $t "\n" }}" hidden>Copy recipe</button>
+      {{- end }}
+      {{- with $r.anchor }}
+      <a class="recipe-jump" href="#{{ . }}">Jump to recipe ↓</a>
+      {{- end }}
+    </div>
   </div>
   {{- end }}
 
@@ -49,4 +75,27 @@
   </footer>
   {{- partial "recipe/jsonld.html" . }}
 </article>
+<script>
+(() => {
+  const b = document.querySelector('.recipe-copy');
+  if (!b) return; b.hidden = false;
+  const text = b.dataset.text;
+  let timer;
+  const fallback = () => {
+    const ta = Object.assign(document.createElement('textarea'), { value: text, readOnly: true });
+    ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.append(ta); ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch {}
+    ta.remove(); return ok;
+  };
+  b.addEventListener('click', async () => {
+    let ok = false;
+    try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); ok = true; } } catch {}
+    if (!ok) ok = fallback();
+    b.textContent = ok ? 'Copied ✓' : 'Copy failed';
+    clearTimeout(timer);
+    timer = setTimeout(() => { b.textContent = 'Copy recipe'; }, 2000);
+  });
+})();
+</script>
 {{- end }}
