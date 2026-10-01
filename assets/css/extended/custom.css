@@ -748,8 +748,136 @@ details.toc .inner {
     color: var(--steel-blue);
 }
 
+.recipe-card > .entry-header:first-child {
+    padding-top: 1.5rem;
+}
+
+.recipe-card .recipe-card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 3;
+    background:
+        repeating-linear-gradient(135deg, transparent 0 14px, rgba(184, 92, 56, 0.08) 14px 15px),
+        var(--tertiary);
+    border-bottom: 3px solid var(--warm-rust);
+}
+
+.recipe-card .recipe-card-placeholder span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--secondary);
+}
+
+.recipe-card .recipe-card-category {
+    margin: 0 0 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--warm-rust);
+}
+
+.recipe-card .recipe-card-keys {
+    margin: -0.25rem 1.5rem 0.75rem;
+    font-size: 0.85rem;
+    color: var(--steel-blue);
+}
+
+.recipe-card[hidden] {
+    display: none;
+}
+
+.recipe-filter {
+    margin: 0 0 2rem;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.recipe-filter[hidden] {
+    display: none;
+}
+
+.recipe-search {
+    width: 100%;
+    max-width: 420px;
+    padding: 0.6rem 0.9rem;
+    font: inherit;
+    background: var(--entry);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: 0;
+}
+
+.recipe-search:focus {
+    outline: none;
+    border-color: var(--warm-rust);
+}
+
+.recipe-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.recipe-chips button {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.8rem;
+    background: transparent;
+    color: var(--secondary);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.recipe-chips:not(.recipe-tags) button {
+    text-transform: uppercase;
+}
+
+.recipe-chips button:hover {
+    border-color: var(--steel-blue);
+    color: var(--primary);
+}
+
+.recipe-chips button[aria-pressed="true"] {
+    background: var(--warm-rust);
+    border-color: var(--warm-rust);
+    color: #fff;
+}
+
+.recipe-empty {
+    color: var(--secondary);
+}
+
+.recipe-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.recipe-copy {
+    font: inherit;
+    font-weight: 600;
+    padding: 0.35rem 0.9rem;
+    cursor: pointer;
+    background: transparent;
+    color: var(--warm-rust);
+    border: 1px solid var(--warm-rust);
+    border-radius: 0;
+}
+
+.recipe-copy:hover {
+    background: var(--warm-rust);
+    color: #fff;
+}
+
 @media print {
-    .header, .footer, .recipe-jump, .post-footer, .breadcrumbs {
+    .header, .footer, .recipe-jump, .recipe-copy, .post-footer, .breadcrumbs {
         display: none !important;
     }
 }
