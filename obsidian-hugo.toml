@@ -1,6 +1,8 @@
 # Obsidian → Hugo publishing. Read by the obsidian plugin's hugo-publish skill.
 # Paths under [posts] and [[pages]] are relative to the vault (note) or the site repo (content).
 
+staging = "http://mac-mini:1313"  # staging server that builds vault drafts (tailnet only); the recipe skill links to it
+
 [posts]
 notes = "Blog/Posts"          # vault folder: one note per post
 content = "content/posts"     # each post is published as a page bundle: <content>/<slug>/index.md
